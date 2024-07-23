@@ -13,4 +13,4 @@ steps:
       - 'europe-southwest1-docker.pkg.dev/circles4dev/circles/circles.web:latest'
 images:
   - 'europe-southwest1-docker.pkg.dev/circles4dev/circles/circles.web:latest'
-logsBucket: 'gs://logsbucket-circles4-com'
+logsBucket: 'gs://logs_builder_bucket-circles4-com'
