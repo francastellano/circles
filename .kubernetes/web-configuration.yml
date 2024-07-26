@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: circles-web
+  labels:
+    app: circles-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: circles-web
+  template:
+    metadata:
+      labels:
+        app: circles-web
+    spec:
+      containers:
+      - name: circles-web
+        image: europe-southwest1-docker.pkg.dev/circles4dev/circles/circles.web:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: circles-web
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: circles-web
