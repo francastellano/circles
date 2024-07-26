@@ -13,7 +13,7 @@ steps:
       - '-t'
       - 'europe-southwest1-docker.pkg.dev/circles4dev/circles/circles.api:latest'
       - '-f'
-      - '.docker/Dockerfile.api'
+      - '.docker/Docker.api'
       - .
   - name: gcr.io/cloud-builders/docker
     args:
