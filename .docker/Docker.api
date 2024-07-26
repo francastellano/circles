@@ -1,0 +1,23 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# restore
+COPY ["src/circles.api/circles.api.csproj", "circles.api/"]
+
+RUN dotnet restore 'circles.api/circles.api.csproj'
+
+COPY ["src/circles.api", "circles.api"]
+
+WORKDIR /src/circles.api
+RUN dotnet build 'circles.api.csproj' -c Release -o /app/build
+
+FROM build as publish
+RUN dotnet publish 'circles.api.csproj' -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+ENV ASPNETCORE_HTTP_PORTS=5001
+EXPOSE 5001
+WORKDIR /app
+COPY --from=publish /app/publish .
+
+ENTRYPOINT ["dotnet", "circles.api.dll"]

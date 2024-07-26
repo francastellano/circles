@@ -9,8 +9,22 @@ steps:
       - .
   - name: gcr.io/cloud-builders/docker
     args:
+      - build
+      - '-t'
+      - 'europe-southwest1-docker.pkg.dev/circles4dev/circles/circles.api:latest'
+      - '-f'
+      - '.docker/Dockerfile.api'
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
       - push
       - 'europe-southwest1-docker.pkg.dev/circles4dev/circles/circles.web:latest'
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - 'europe-southwest1-docker.pkg.dev/circles4dev/circles/circles.api:latest'
+
 images:
   - 'europe-southwest1-docker.pkg.dev/circles4dev/circles/circles.web:latest'
+  - 'europe-southwest1-docker.pkg.dev/circles4dev/circles/circles.api:latest'
 logsBucket: 'gs://logs_builder_bucket-circles4-com'
