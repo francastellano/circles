@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: circles4-ingress-v1
+  annotations:
+    networking.gke.io/managed-certificates: circles4-cert
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "circles-web-ip"
+spec:
+  rules:
+    - host: circles4.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: circles-web
+                port:
+                  number: 80
+    - host: www.circles4.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: circles-web
+                port:
+                  number: 80

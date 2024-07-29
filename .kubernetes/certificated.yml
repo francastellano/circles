@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: circles4-cert
+spec:
+  domains:
+    - circles4.com
+    - www.circles4.com
