@@ -27,6 +27,7 @@ metadata:
   name: circles-api
 spec:
   type: LoadBalancer
+  loadBalancerIP: 34.175.4.89
   ports:
   - port: 80
     targetPort: 5001
