@@ -1,14 +1,16 @@
-using circles.api.contracts.Weather.Queries.GetList;
+using circles.api.contracts.Circles.Queries.GetList;
+using circles.application;
+using circles.application.Features.Circles.GetList;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 var uriAppBase = builder.Configuration.GetValue<string>("AppSettings:BaseUri");
 if (uriAppBase is null)
     throw new ArgumentNullException("The uri api base is null");
 
-
-// Configure CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PolicyOne", build =>
@@ -17,15 +19,14 @@ builder.Services.AddCors(options =>
      });
 });
 
-
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddApplication();
+
 var app = builder.Build();
 
-// Use CORS
 app.UseCors("PolicyOne");
 
 
@@ -38,24 +39,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/api/v1/circles", async (IMediator _mediator, [AsParameters] CircleGetListParams parameter) =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    var result = await _mediator.Send(new CirclesGetListQuery(parameter));
+    return result;
 })
-.WithName("GetWeatherForecast")
+.WithName("GetCircles")
 .WithOpenApi();
 
 app.Run();

@@ -9,6 +9,11 @@
   <ItemGroup>
     <ProjectReference Include="..\circles.domain\circles.domain.csproj" />
     <ProjectReference Include="..\circles.infrastructure\circles.infrastructure.csproj" />
+    <ProjectReference Include="..\circles.api.contracts\circles.api.contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.0" />
   </ItemGroup>
 
 </Project>

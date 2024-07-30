@@ -4,3 +4,8 @@ GET {{circles.api_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{circles.api_HostAddress}}/api/v1/circles?denomination=2
+Accept: application/json
+
+###
