@@ -2,12 +2,32 @@ using circles.api.contracts.Weather.Queries.GetList;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PolicyOne", build =>
+    {
+        if (builder.Environment.IsDevelopment())
+            build.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        else
+            build.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        // TODO: Review CORS in production
+        //build.WithOrigins("http://localhost:5001").AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Use CORS
+app.UseCors("PolicyOne");
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
