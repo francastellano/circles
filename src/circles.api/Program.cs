@@ -3,18 +3,18 @@ using circles.api.contracts.Weather.Queries.GetList;
 var builder = WebApplication.CreateBuilder(args);
 
 
+var uriAppBase = builder.Configuration.GetValue<string>("AppSettings:BaseUri");
+if (uriAppBase is null)
+    throw new ArgumentNullException("The uri api base is null");
+
+
 // Configure CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PolicyOne", build =>
     {
-        if (builder.Environment.IsDevelopment())
-            build.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-        else
-            build.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-        // TODO: Review CORS in production
-        //build.WithOrigins("http://localhost:5001").AllowAnyHeader().AllowAnyMethod();
-    });
+        build.WithOrigins(uriAppBase).AllowAnyHeader().AllowAnyMethod();
+     });
 });
 
 

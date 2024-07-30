@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\circles.api.contracts\circles.api.contracts.csproj" />
+    <ProjectReference Include="..\circles.application\circles.application.csproj" />
   </ItemGroup>
 
 </Project>
