@@ -6,6 +6,11 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+var uriApiBase = builder.Configuration.GetValue<string>("ApiSettings:BaseUri");
+if (uriApiBase is null)
+    throw new ArgumentNullException("The uri api base is null");
+
+
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(uriApiBase) });
 
 await builder.Build().RunAsync();
