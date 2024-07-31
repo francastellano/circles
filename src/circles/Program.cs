@@ -8,7 +8,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 var uriApiBase = builder.Configuration.GetValue<string>("ApiSettings:BaseUri");
 if (uriApiBase is null)
-    throw new ArgumentNullException("The uri api base is null");
+    throw new ArgumentNullException("ApiSettings:BaseUri", "The uri api base is null");
 
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(uriApiBase) });
