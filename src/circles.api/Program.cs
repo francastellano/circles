@@ -48,4 +48,4 @@ app.MapGet("/api/v1/circles", async (IMediator _mediator, [AsParameters] CircleG
 .WithName("GetCircles")
 .WithOpenApi();
 
-app.Run();
+await app.RunAsync();
