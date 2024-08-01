@@ -19,6 +19,13 @@ spec:
         image: europe-southwest1-docker.pkg.dev/circles4dev/circles/circles.web:latest
         ports:
         - containerPort: 80
+        resources:
+          limits:
+            memory: "512Mi"
+            ephemeral-storage: "100Mi"
+          requests:
+            memory: "256Mi"
+
 ---
 apiVersion: v1
 kind: Service
