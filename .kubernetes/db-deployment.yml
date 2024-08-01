@@ -12,6 +12,7 @@ spec:
       labels:
         app: circles-db
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: circles-db
         image: postgres:latest

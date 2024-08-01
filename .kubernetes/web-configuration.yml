@@ -14,6 +14,7 @@ spec:
       labels:
         app: circles-web
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: circles-web
         image: europe-southwest1-docker.pkg.dev/circles4dev/circles/circles.web:latest
