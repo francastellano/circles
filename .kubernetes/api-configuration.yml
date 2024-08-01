@@ -12,6 +12,7 @@ spec:
       labels:
         app: circles-api
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: circles-api
         image: europe-southwest1-docker.pkg.dev/circles4dev/circles/circles.api:latest
