@@ -20,6 +20,13 @@ spec:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Production"
+        resources:
+          limits:
+            memory: "512Mi"
+            ephemeral-storage: "100Mi"
+          requests:
+            memory: "256Mi"
+          
 ---
 apiVersion: v1
 kind: Service
