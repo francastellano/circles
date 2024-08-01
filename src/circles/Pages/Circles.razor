@@ -10,40 +10,44 @@
 
 <EditForm Model="formParams" OnValidSubmit="QueryCircles" FormName="query">
 
-<div class="form-floating mb-3">
-    <input id="Denomination" type="text" placeholder="Denomination" @bind="formParams.Denomination"
-        class="form-control"
-        autocomplete="off">
+    <div class="form-floating mb-3">
+        <input id="Denomination" type="text" placeholder="Denomination" @bind="formParams.Denomination"
+            class="form-control" autocomplete="off">
 
         <label for="Denomination" class="form-label">Denomination</label>
     </div>
 
-<div class="form-floating mb-3">
-<button type="submit" class="w-100 btn btn-lg btn-primary">Consultar</button>
-      </div>
-        
+    <div class="form-floating mb-3">
+        <button type="submit" class="w-100 btn btn-lg btn-primary">Consultar</button>
+    </div>
+
 </EditForm>
 
 
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Denomination</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Denomination</th>
+        </tr>
+    </thead>
+    <tbody>
         @if (results != null)
         {
             @foreach (var result in results)
             {
                 <tr>
-                    <td>@result.Denomination</td>
+                    <td>
+
+                        <NavLink class="link" href=" @($"circles/{@result.Id}")">@result.Denomination
+                        </NavLink>
+
+                    </td>
                 </tr>
             }
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
 
 
 @code {
@@ -51,7 +55,8 @@
     private CircleGetListParams formParams { get; set; } = new();
     private CircleGetListResults[]? results;
 
-    private async Task QueryCircles(){
+    private async Task QueryCircles()
+    {
         results = await Http.GetFromJsonAsync<CircleGetListResults[]>($"api/v1/circles?denomination={formParams.Denomination}");
     }
 }
