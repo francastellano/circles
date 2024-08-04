@@ -29,6 +29,7 @@ spec:
           requests:
             memory: "256Mi"
             cpu: "250m"
+            ephemeral-storage: "10Gi"
           
 ---
 apiVersion: v1
