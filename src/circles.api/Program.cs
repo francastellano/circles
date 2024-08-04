@@ -9,14 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 var uriAppBase = builder.Configuration.GetValue<string>("AppSettings:BaseUri");
 if (uriAppBase is null)
-    throw new ArgumentNullException("The uri api base is null");
+    throw new InvalidOperationException("The configuration 'AppSettings:BaseUri' value is null or empty");
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PolicyOne", build =>
     {
         build.WithOrigins(uriAppBase).AllowAnyHeader().AllowAnyMethod();
-     });
+    });
 });
 
 // Add services to the container.
