@@ -15,7 +15,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: circles-db
-        image: postgres:latest        
+        image: postgres:latest
         ports:
         - containerPort: 5432
         resources:
