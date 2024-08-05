@@ -6,10 +6,12 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 COPY ["src/circles/circles.csproj", "circles/"]
+COPY ["src/circles.api.contracts/circles.api.contracts.csproj", "circles.api.contracts/"]
 
 RUN dotnet restore "circles/circles.csproj"   
 
 COPY ["src/circles", "circles"]
+COPY ["src/circles.api.contracts", "circles.api.contracts"]
 
 WORKDIR /src/circles
 RUN dotnet build "circles.csproj" -c Release -o /app/build

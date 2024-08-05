@@ -1,23 +1,40 @@
 using circles.api.contracts.Circles.Queries.GetList;
+using circles.infrastructure.Context;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Circles.GetList;
 
-public sealed record CirclesGetListQuery (CircleGetListParams Param) : IRequest<List<CircleGetListResults>>;
+public sealed record CirclesGetListQuery(CircleGetListParams Param) : IRequest<List<CircleGetListResults>>;
 
-internal sealed record CirclesGetListQueryHandler : IRequestHandler<CirclesGetListQuery, List<CircleGetListResults>>{
+internal sealed record CirclesGetListQueryHandler : IRequestHandler<CirclesGetListQuery, List<CircleGetListResults>>
+{
+
+    private readonly CirclesDbContext _context;
+
+    public CirclesGetListQueryHandler(CirclesDbContext dbContext)
+    {
+        _context = dbContext;
+    }
+
 
     public async Task<List<CircleGetListResults>> Handle(CirclesGetListQuery request, CancellationToken cancellationToken)
     {
 
-        var result = new List<CircleGetListResults>();
+        var baseQuery = _context.Circles
+                .OrderBy(e => e.Denomination)
+                .AsQueryable();
 
-        result.Add (new CircleGetListResults(Guid.NewGuid(), "Circle1 fake"));
-        result.Add (new CircleGetListResults(Guid.NewGuid(), "Circle2 fake"));
+        if (!string.IsNullOrEmpty(request.Param.Denomination))
+            baseQuery = baseQuery.Where(e => e.Denomination.Contains(request.Param.Denomination));
 
-        if (request.Param.Denomination != null)
-            result = result.Where (e=> e.Denomination.Contains(request.Param.Denomination)).ToList();
-            
-        return result;
+        var query = baseQuery.Select(
+            e => new CircleGetListResults(
+                e.Id,
+                e.Denomination
+            )
+        );
+
+        return await query.ToListAsync(cancellationToken);
     }
 }
