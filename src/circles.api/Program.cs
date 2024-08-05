@@ -1,9 +1,12 @@
+using circles.api.contracts.Circles.Commands.Add;
 using circles.api.contracts.Circles.Queries.GetList;
 using circles.application;
+using circles.application.Features.Circles.Commands.Add;
 using circles.application.Features.Circles.GetList;
+using circles.infrastructure;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +27,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
@@ -46,6 +50,15 @@ app.MapGet("/api/v1/circles", async (IMediator _mediator, [AsParameters] CircleG
     return result;
 })
 .WithName("GetCircles")
+.WithOpenApi();
+
+
+app.MapPost("/api/v1/circles", async (IMediator _mediator, [FromBody] CircleAddParams parameter) =>
+{
+    await _mediator.Send(new CirclesAddCommand(parameter));
+    return Results.Created();
+})
+.WithName("AddCircle")
 .WithOpenApi();
 
 await app.RunAsync();
