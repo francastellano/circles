@@ -1,23 +1,45 @@
+# Stage 1: Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# restore
+# Restore
 COPY ["src/circles.api/circles.api.csproj", "circles.api/"]
+COPY ["src/circles.api.contracts/circles.api.contracts.csproj", "circles.api.contracts/"]
+COPY ["src/circles.application/circles.application.csproj", "circles.application/"]
+COPY ["src/circles.domain/circles.domain.csproj", "circles.domain/"]
+COPY ["src/circles.infrastructure/circles.infrastructure.csproj", "circles.infrastructure/"]
 
 RUN dotnet restore 'circles.api/circles.api.csproj'
 
+# Copy the source files
 COPY ["src/circles.api", "circles.api"]
+COPY ["src/circles.api.contracts", "circles.api.contracts"]
+COPY ["src/circles.application", "circles.application/"]
+COPY ["src/circles.domain", "circles.domain/"]
+COPY ["src/circles.infrastructure", "circles.infrastructure/"]
 
 WORKDIR /src/circles.api
 RUN dotnet build 'circles.api.csproj' -c Release -o /app/build
 
+# Stage 2: Publish
 FROM build as publish
 RUN dotnet publish 'circles.api.csproj' -c Release -o /app/publish
 
+# Stage 3: Final
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ENV ASPNETCORE_HTTP_PORTS=5001
 EXPOSE 5001
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+ENV DB_PASSWORD=strong_password11
+
+# Install envsubst for variable substitution
+RUN apt-get update && apt-get install -y gettext-base
+
+# Use envsubst to replace placeholders with environment variables
+RUN envsubst < /app/appsettings.json > /app/appsettings.json.prod
+
+RUN envsubst < /app/appsettings.json > /app/appsettings.json.tmp && mv /app/appsettings.json.tmp /app/appsettings.json
 
 ENTRYPOINT ["dotnet", "circles.api.dll"]

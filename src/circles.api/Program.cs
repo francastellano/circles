@@ -1,9 +1,11 @@
+using circles.api;
 using circles.api.contracts.Circles.Commands.Add;
 using circles.api.contracts.Circles.Queries.GetList;
 using circles.application;
 using circles.application.Features.Circles.Commands.Add;
 using circles.application.Features.Circles.GetList;
 using circles.infrastructure;
+using circles.infrastructure.Context;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +27,8 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<IStartupFilter, MigrationStartupFilter<CirclesDbContext>>();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);

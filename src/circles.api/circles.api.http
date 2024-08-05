@@ -1,11 +1,7 @@
-@circles.api_HostAddress = http://localhost:5130
+# @circles.api_HostAddress = http://localhost:5130
+@circles.api_HostAddress = http://localhost:5001
 
-GET {{circles.api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
-
-GET {{circles.api_HostAddress}}/api/v1/circles?denomination=2
+GET {{circles.api_HostAddress}}/api/v1/circles?denomination=
 Accept: application/json
 
 ###
@@ -15,6 +11,6 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "denomination": "My Circle 3"
+  "denomination": "My Circle 2"
 }
 ###
