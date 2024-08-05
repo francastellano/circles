@@ -21,6 +21,8 @@ spec:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Production"
+        - name: DB_PASSWORD
+          value: "strong_password11"
         resources:
           limits:
             memory: "512Mi"
