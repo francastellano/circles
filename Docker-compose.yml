@@ -1,0 +1,33 @@
+services:
+    api:
+        container_name: circles-api
+        build:
+            context: .
+            dockerfile: .docker/Docker.api
+        ports:
+            - '5001:5001'
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
+            - DB_PASSWORD=strong_password11
+
+    web:
+        container_name: circles-web
+        build:
+            context: .
+            dockerfile: .docker/Docker.client
+        ports:
+            - '80:80'
+    db:
+        container_name: circles-db
+        image: postgres:latest
+        # ports:
+        #    - '5432:5432'
+        environment:
+            POSTGRES_DB: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: strong_password11
+        volumes:
+            - postgres_data:/var/lib/postgressql/data
+
+volumes:
+    postgres_data:
