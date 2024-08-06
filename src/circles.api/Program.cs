@@ -13,14 +13,16 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 
 var uriAppBase = builder.Configuration.GetValue<string>("AppSettings:BaseUri");
-if (uriAppBase is null)
+if (string.IsNullOrEmpty(uriAppBase))
     throw new InvalidOperationException("The configuration 'AppSettings:BaseUri' value is null or empty");
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("PolicyOne", build =>
+    options.AddPolicy("PolicyOne", policy =>
     {
-        build.WithOrigins(uriAppBase).AllowAnyHeader().AllowAnyMethod();
+        policy.WithOrigins(uriAppBase)
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
@@ -45,7 +47,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 
 app.MapGet("/api/v1/circles", async (IMediator _mediator, [AsParameters] CircleGetListParams parameter) =>
