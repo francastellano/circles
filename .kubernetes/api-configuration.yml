@@ -22,15 +22,16 @@ spec:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Production"
         - name: DB_PASSWORD
-          value: "strong_password11"
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DB_PASSWORD
         resources:
           limits:
             memory: "512Mi"
             ephemeral-storage: "100Mi"
-            cpu: "500m"
           requests:
             memory: "256Mi"
-            cpu: "250m"
             ephemeral-storage: "10Gi"
           
 ---
@@ -39,8 +40,7 @@ kind: Service
 metadata:
   name: circles-api
 spec:
-  type: LoadBalancer
-  loadBalancerIP: 34.175.4.89
+  type: ClusterIP
   ports:
   - port: 80
     targetPort: 5001

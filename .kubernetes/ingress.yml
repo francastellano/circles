@@ -28,3 +28,13 @@ spec:
                 name: circles-web
                 port:
                   number: 80
+    - host: api.circles4.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: circles-api
+                port:
+                  number: 80

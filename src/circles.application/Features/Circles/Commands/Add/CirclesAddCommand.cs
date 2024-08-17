@@ -17,7 +17,7 @@ internal sealed record CirclesAddCommandHandler : IRequestHandler<CirclesAddComm
     }
     public async Task Handle(CirclesAddCommand request, CancellationToken cancellationToken)
     {
-        var data = new Circle(request.parameter.Denomination);
+        var data = Circle.Create(request.parameter.Denomination);
 
         await DbContext.Circles.AddAsync(data, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
