@@ -1,5 +1,6 @@
 using circles.domain.Abstractions;
 using circles.domain.Circles;
+using circles.domain.Members;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,7 @@ namespace circles.infrastructure.Context;
 public class CirclesDbContext(DbContextOptions<CirclesDbContext> options, IMediator mediator) : DbContext(options)
 {
     public DbSet<Circle> Circles { get; set; } = null!;
+    public DbSet<CircleMember> CircleMembers { get; set; } = null!;
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {

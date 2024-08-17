@@ -3,6 +3,7 @@ namespace circles.domain.Abstractions;
 public abstract class BaseEntity
 {
 
+    public Guid Id { get; set; }
     protected readonly List<IDomainEvent> DomainEvents = [];
     public IReadOnlyList<IDomainEvent> GetDomainEvents()
     {

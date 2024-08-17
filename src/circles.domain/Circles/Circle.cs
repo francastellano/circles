@@ -12,7 +12,6 @@ public sealed class Circle : BaseEntity
         Id = Guid.NewGuid();
         Denomination = denomination;
     }
-    public Guid Id { get; set; }
     public string Denomination { get; set; } = string.Empty;
 
     public static Circle Create(string denomination)
