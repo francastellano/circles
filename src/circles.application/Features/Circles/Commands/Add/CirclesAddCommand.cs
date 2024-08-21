@@ -21,16 +21,11 @@ internal sealed record CirclesAddCommandHandler : IRequestHandler<CirclesAddComm
     }
     public async Task Handle(CirclesAddCommand request, CancellationToken cancellationToken)
     {
-
-        // Validate the request parameters
         var validationResult = await _validator.ValidateAsync(request.Parameter, cancellationToken);
 
         if (!validationResult.IsValid)
         {
-
-            // You can handle validation failures here (e.g., throw an exception or return an error response)
             throw new ValidationException(validationResult.Errors);
-
         }
 
         var data = Circle.Create(request.Parameter.Denomination);
