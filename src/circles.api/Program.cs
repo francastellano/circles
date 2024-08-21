@@ -6,11 +6,15 @@ using circles.application.Features.Circles.Commands.Add;
 using circles.application.Features.Circles.GetList;
 using circles.infrastructure;
 using circles.infrastructure.Context;
+using FastEndpoints;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddFastEndpoints();
 
 var uriAppBase = builder.Configuration.GetValue<string>("AppSettings:BaseUri");
 if (string.IsNullOrEmpty(uriAppBase))
@@ -40,6 +44,9 @@ var app = builder.Build();
 app.UseCors("PolicyOne");
 
 
+app.UseFastEndpoints();
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -48,23 +55,5 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
-
-
-app.MapGet("/api/v1/circles", async (IMediator _mediator, [AsParameters] CircleGetListParams parameter) =>
-{
-    var result = await _mediator.Send(new CirclesGetListQuery(parameter));
-    return result;
-})
-.WithName("GetCircles")
-.WithOpenApi();
-
-
-app.MapPost("/api/v1/circles", async (IMediator _mediator, [FromBody] CircleAddParams parameter) =>
-{
-    await _mediator.Send(new CirclesAddCommand(parameter));
-    return Results.Created();
-})
-.WithName("AddCircle")
-.WithOpenApi();
 
 await app.RunAsync();

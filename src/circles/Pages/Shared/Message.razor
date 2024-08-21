@@ -1,0 +1,45 @@
+@using System.Timers
+
+<div class="notification"
+    style="display:@(IsVisible ? "block" : "none")">
+    @MessageText
+</div>
+
+@code {
+    private Timer _timer = new();
+    public bool IsVisible { get; set; }
+    public string MessageText { get; set; } = string.Empty;
+
+
+    public void Loading()
+    {
+        MessageText = "Loading ...";
+        IsVisible = true;
+    }
+
+    public void ShowMessage(string message, int durationInSeconds)
+    {
+        MessageText = message;
+        IsVisible = true;
+        StateHasChanged();
+
+        _timer = new Timer(durationInSeconds * 1000);
+        _timer.Elapsed += HideMessage;
+        _timer.AutoReset = false;
+        _timer.Start();
+    }
+
+    private void HideMessage(object? source, ElapsedEventArgs e)
+    {
+        IsVisible = false;
+        StateHasChanged();
+        _timer.Dispose();
+    }
+
+    public void ForceFinish()
+    {
+        IsVisible = false;
+        StateHasChanged();
+
+    }
+}
