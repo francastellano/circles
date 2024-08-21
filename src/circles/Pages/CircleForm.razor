@@ -26,36 +26,36 @@
 </EditForm>
 
 
-@code{
+@code {
 
     bool _loading;
     private Message messageComponent = new();
 
     private AddFormParams formParams { get; set; } = new();
 
-    public async Task AddCircle(){
+    public async Task AddCircle()
+    {
 
         _loading = true;
 
         var response = await Http.PostAsJsonAsync("/api/v1/circles", formParams);
         if (response.IsSuccessStatusCode)
         {
-            //messageComponent.ShowMessage("The Circle has been created", 3);
-            
             Navigation.NavigateTo("circles");
         }
         else
         {
             messageComponent.ShowMessage("An error has happened creation the circle", 3);
         }
-        
+
 
         _loading = false;
 
     }
 
-    public class AddFormParams{
-        public string Denomination {get; set;}
-    }    
+    public class AddFormParams
+    {
+        public string Denomination { get; set; }
+    }
 
 }
