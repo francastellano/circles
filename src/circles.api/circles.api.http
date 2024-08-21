@@ -1,10 +1,10 @@
-# @circles.api_HostAddress = http://localhost:5130
+@circles.api_HostAddress = http://localhost:5130
 # @circles.api_HostAddress = http://localhost:5001
 # @circles.api_HostAddress = http://34.175.75.158
 # @circles.api_HostAddress = https://api.circles4.com
 # @circles.api_HostAddress = http://34.111.14.125
 
-@circles.api_HostAddress = https://api.circles4.com
+#@circles.api_HostAddress = https://api.circles4.com
 
 ### Get circles
 
@@ -18,6 +18,6 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "denomination": "My Circle 1"
+  "denomination": "My Circle 2"
 }
 ###

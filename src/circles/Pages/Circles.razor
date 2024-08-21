@@ -3,10 +3,16 @@
 @using circles.api.contracts.Circles.Queries.GetList
 
 @inject HttpClient Http
+@inject NavigationManager Navigation
 
 <PageTitle>Circles</PageTitle>
 
 <h1>Circles</h1>
+
+
+<button type="button" class="btn btn-lg btn-primary" @onclick="Navigate">Add</button>
+
+<hr>
 
 <EditForm Model="formParams" OnValidSubmit="QueryCircles" FormName="query">
 
@@ -58,5 +64,9 @@
     private async Task QueryCircles()
     {
         results = await Http.GetFromJsonAsync<CircleGetListResults[]>($"api/v1/circles?denomination={formParams.Denomination}");
+    }
+
+    private async Task Navigate(){
+        Navigation.NavigateTo("circles/add");
     }
 }

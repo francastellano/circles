@@ -1,0 +1,61 @@
+@page "/circles/add"
+@inject NavigationManager Navigation
+@inject HttpClient Http
+
+<PageTitle>Circles</PageTitle>
+
+<h1>Add a new circle</h1>
+
+<div>
+    <Message @ref="messageComponent" />
+</div>
+
+
+<EditForm Model="formParams" OnValidSubmit="AddCircle" FormName="add">
+
+    <div class="form-floating mb-3">
+        <input id="Denomination" type="text" placeholder="Denomination" @bind="formParams.Denomination"
+            class="form-control" autocomplete="off">
+        <label for="Denomination" class="form-label">Denomination</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <button type="submit" class="btn btn-lg btn-primary" disabled="@_loading">Add</button>
+    </div>
+
+</EditForm>
+
+
+@code{
+
+    bool _loading;
+    private Message messageComponent = new();
+
+    private AddFormParams formParams { get; set; } = new();
+
+    public async Task AddCircle(){
+
+        _loading = true;
+
+        var response = await Http.PostAsJsonAsync("/api/v1/circles", formParams);
+        if (response.IsSuccessStatusCode)
+        {
+            //messageComponent.ShowMessage("The Circle has been created", 3);
+            
+            Navigation.NavigateTo("circles");
+        }
+        else
+        {
+            messageComponent.ShowMessage("An error has happened creation the circle", 3);
+        }
+        
+
+        _loading = false;
+
+    }
+
+    public class AddFormParams{
+        public string Denomination {get; set;}
+    }    
+
+}

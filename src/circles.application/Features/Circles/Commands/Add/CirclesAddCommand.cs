@@ -4,7 +4,7 @@ using circles.infrastructure.Context;
 using MediatR;
 
 namespace circles.application.Features.Circles.Commands.Add;
-public sealed record CirclesAddCommand(CircleAddParams parameter) : IRequest;
+public sealed record CirclesAddCommand(CircleAddParams Parameter) : IRequest;
 
 internal sealed record CirclesAddCommandHandler : IRequestHandler<CirclesAddCommand>
 {
@@ -17,7 +17,7 @@ internal sealed record CirclesAddCommandHandler : IRequestHandler<CirclesAddComm
     }
     public async Task Handle(CirclesAddCommand request, CancellationToken cancellationToken)
     {
-        var data = Circle.Create(request.parameter.Denomination);
+        var data = Circle.Create(request.Parameter.Denomination);
 
         await DbContext.Circles.AddAsync(data, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
