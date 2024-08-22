@@ -15,7 +15,7 @@ public class CircleAddEndPoint(IMediator mediator) : Endpoint<CircleAddParams, G
 
     public override async Task HandleAsync(CircleAddParams req, CancellationToken ct)
     {
-        var email = User.Claims.Where(e => e.Type == "emails").FirstOrDefault();
+        var email = User.Claims.FirstOrDefault(e => e.Type == "emails");
         if (email is null)
             throw new Exception("Email is null");
 
