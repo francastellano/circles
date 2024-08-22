@@ -73,7 +73,7 @@
         httpClient.GetFromJsonAsync<CircleGetListResults[]>($"api/v1/circles?denomination={formParams.Denomination}");
     }
 
-    private async Task Navigate()
+    private void Navigate()
     {
         Navigation.NavigateTo("circles/add");
     }
