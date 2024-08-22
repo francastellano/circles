@@ -11,7 +11,6 @@ public class CircleGetListEndPoint(IMediator mediator) : Endpoint<CircleGetListP
     {
         Verbs(Http.GET);
         Routes("/api/v1/circles");
-        //AllowAnonymous();
     }
 
     public override async Task HandleAsync(CircleGetListParams req, CancellationToken ct)
