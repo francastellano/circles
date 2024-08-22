@@ -3,7 +3,7 @@ using circles.infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace circles.application.Features.Circles.GetList;
+namespace circles.application.Features.Circles.Queries.GetList;
 
 public sealed record CirclesGetListQuery(CircleGetListParams Param) : IRequest<List<CircleGetListResults>>;
 
