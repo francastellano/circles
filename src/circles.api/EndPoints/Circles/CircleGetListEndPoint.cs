@@ -11,12 +11,11 @@ public class CircleGetListEndPoint(IMediator mediator) : Endpoint<CircleGetListP
     {
         Verbs(Http.GET);
         Routes("/api/v1/circles");
-        AllowAnonymous();
+        //AllowAnonymous();
     }
 
     public override async Task HandleAsync(CircleGetListParams req, CancellationToken ct)
     {
-
         var result = await mediator.Send(new CirclesGetListQuery(req), ct);
         await SendAsync(result);
     }

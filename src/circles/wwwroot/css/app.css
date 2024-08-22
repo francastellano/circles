@@ -18,17 +18,19 @@ h1:focus {
 }
 
 a, .btn-link {
-    color: #0071c1;
+    color: grey;
 }
 
-.btn-primary {
+.btn {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: grey;
+    border-color: #131618;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.btn:hover, .btn:focus{
+    color: #fff;
+    background-color: #4e5456;
+    border-color: black;
 }
 
 .content {
