@@ -1,4 +1,5 @@
 using circles.api.contracts.Circles.Commands.Add;
+using circles.application.Exception;
 using circles.application.Features.Circles.Commands.Add;
 using FastEndpoints;
 using MediatR;
@@ -17,7 +18,7 @@ public class CircleAddEndPoint(IMediator mediator) : Endpoint<CircleAddParams, G
     {
         var email = User.Claims.FirstOrDefault(e => e.Type == "emails");
         if (email is null)
-            throw new ArgumentNullException("Email");
+            throw new UserCantBeFoundException();
 
         await mediator.Send(new CirclesAddCommand(req, email.Value), ct);
     }
