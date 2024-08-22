@@ -21,7 +21,7 @@ public class CircleCreateOwnerEvent : INotificationHandler<CircleCreatedEvent>
         var circle = await _dbContext.Circles.FirstOrDefaultAsync(e => e.Id == notification.Id, cancellationToken: cancellationToken);
 
         if (circle is null)
-            throw new NullReferenceException("the circle can't be found");
+            throw new NullReferenceException("Circle");
 
         var data = CircleMember.Create(circle, circle.Creator);
 

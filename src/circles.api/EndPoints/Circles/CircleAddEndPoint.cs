@@ -17,7 +17,7 @@ public class CircleAddEndPoint(IMediator mediator) : Endpoint<CircleAddParams, G
     {
         var email = User.Claims.FirstOrDefault(e => e.Type == "emails");
         if (email is null)
-            throw new NullReferenceException("Email is null");
+            throw new ArgumentNullException("Email");
 
         await mediator.Send(new CirclesAddCommand(req, email.Value), ct);
     }
