@@ -10,7 +10,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 var uriApiBase = builder.Configuration.GetValue<string>("ApiSettings:BaseUri");
 
 if (uriApiBase is null)
-     throw new InvalidOperationException("The configuration 'ApiSettings:BaseUri' value is null or empty");
+    throw new InvalidOperationException("The configuration 'ApiSettings:BaseUri' value is null or empty");
 
 builder.Services.AddTransient<CustomAuthorizationMessageHandler>();
 
@@ -24,12 +24,17 @@ builder.Services.AddScoped(sp =>
     sp.GetRequiredService<IHttpClientFactory>().CreateClient("AuthorizedClient"));
 
 
+
+var tokenScope = builder.Configuration.GetValue<string>("AzureAdB2C:TokenScope");
+if (tokenScope is null)
+    throw new InvalidOperationException("The configuration 'ApiSettings:tokenScope' value is null or empty");
+
 builder.Services.AddMsalAuthentication(options =>
 {
-     builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
-     options.ProviderOptions.LoginMode = "redirect";
-     options.ProviderOptions.DefaultAccessTokenScopes
-         .Add("https://Circles03.onmicrosoft.com/ab4704f3-1f2a-4d04-8569-58447cb8884d/User");
+    builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
+    options.ProviderOptions.LoginMode = "redirect";
+    options.ProviderOptions.DefaultAccessTokenScopes
+        .Add(tokenScope);
 });
 
 
