@@ -7,7 +7,7 @@ public class CircleMember : BaseEntity
 {
     internal CircleMember() { }
 
-    public CircleMember(Circle circle, string email)
+    internal CircleMember(Circle circle, string email)
     {
         Email = email;
         Circle = circle;
@@ -15,5 +15,11 @@ public class CircleMember : BaseEntity
 
     public Circle Circle { get; set; }
     public string Email { get; set; } = string.Empty;
+
+    public static CircleMember Create(Circle circle, string email)
+    {
+        var item = new CircleMember(circle, email);
+        return item;
+    }
 
 }
