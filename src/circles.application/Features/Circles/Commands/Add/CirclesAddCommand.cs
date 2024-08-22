@@ -3,10 +3,9 @@ using circles.domain.Circles;
 using circles.infrastructure.Context;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace circles.application.Features.Circles.Commands.Add;
-public sealed record CirclesAddCommand(CircleAddParams Parameter) : IRequest;
+public sealed record CirclesAddCommand(CircleAddParams Parameter, string Email) : IRequest;
 
 internal sealed record CirclesAddCommandHandler : IRequestHandler<CirclesAddCommand>
 {
@@ -28,7 +27,7 @@ internal sealed record CirclesAddCommandHandler : IRequestHandler<CirclesAddComm
             throw new ValidationException(validationResult.Errors);
         }
 
-        var data = Circle.Create(request.Parameter.Denomination);
+        var data = Circle.Create(request.Parameter.Denomination, request.Email);
 
         await DbContext.Circles.AddAsync(data, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);

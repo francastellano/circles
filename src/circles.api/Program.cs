@@ -1,18 +1,17 @@
 using circles.api;
-using circles.api.contracts.Circles.Commands.Add;
-using circles.api.contracts.Circles.Queries.GetList;
 using circles.application;
-using circles.application.Features.Circles.Commands.Add;
-using circles.application.Features.Circles.GetList;
 using circles.infrastructure;
 using circles.infrastructure.Context;
 using FastEndpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddFastEndpoints();
 
@@ -43,6 +42,9 @@ var app = builder.Build();
 
 app.UseCors("PolicyOne");
 
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseFastEndpoints();
 

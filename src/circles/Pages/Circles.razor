@@ -1,9 +1,13 @@
 @page "/circles"
 
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
 @using circles.api.contracts.Circles.Queries.GetList
 
-@inject HttpClient Http
 @inject NavigationManager Navigation
+
+@inject IHttpClientFactory HttpClientFactory
 
 <PageTitle>Circles</PageTitle>
 
@@ -63,10 +67,14 @@
 
     private async Task QueryCircles()
     {
-        results = await Http.GetFromJsonAsync<CircleGetListResults[]>($"api/v1/circles?denomination={formParams.Denomination}");
+        var httpClient = HttpClientFactory.CreateClient("AuthorizedClient");
+
+        results = await
+        httpClient.GetFromJsonAsync<CircleGetListResults[]>($"api/v1/circles?denomination={formParams.Denomination}");
     }
 
-    private async Task Navigate(){
+    private async Task Navigate()
+    {
         Navigation.NavigateTo("circles/add");
     }
 }
