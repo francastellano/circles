@@ -1,7 +1,7 @@
 using FastEndpoints;
 using MediatR;
 using circles.api.contracts.Circles.Queries.GetList;
-using circles.application.Features.Circles.GetList;
+using circles.application.Features.Circles.Queries.GetList;
 
 namespace circles.api.EndPoints.Circles;
 

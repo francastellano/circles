@@ -1,10 +1,45 @@
 @page "/circles/{Id}"
 
-<td>@Id</td>
+@using Microsoft.AspNetCore.Authorization
+@using circles.api.contracts.Circles.Queries.GetById
+@attribute [Authorize]
+
+@inject IHttpClientFactory HttpClientFactory
+
+
+@if (Result != null)
+{
+    <div>
+    <div> <strong>Description</strong></div>
+    <div> @Result.Denomination</div>
+</div>
+
+    <div>
+    <div> <strong>Creator</strong></div>
+    <div> @Result.Creator</div>
+</div>
+}
 
 
 @code {
 
     [Parameter, EditorRequired]
     public string Id { get; set; } = string.Empty;
+
+    public CircleGetByIdResult? Result { get; set; }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetById();
+    }
+
+    public async Task GetById()
+    {
+        var httpClient = HttpClientFactory.CreateClient("AuthorizedClient");
+
+        Result = await
+        httpClient.GetFromJsonAsync<CircleGetByIdResult>($"api/v1/circles/{Id}");
+    }
 }
