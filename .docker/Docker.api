@@ -3,6 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Restore
+COPY ["Directory.Build.props", "."]
 COPY ["src/circles.api/circles.api.csproj", "circles.api/"]
 COPY ["src/circles.api.contracts/circles.api.contracts.csproj", "circles.api.contracts/"]
 COPY ["src/circles.application/circles.application.csproj", "circles.application/"]
