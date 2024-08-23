@@ -4,6 +4,7 @@
 @using circles.api.contracts.Circles.Queries.GetById
 @attribute [Authorize]
 
+@inject NavigationManager Navigation
 @inject IHttpClientFactory HttpClientFactory
 
 
@@ -15,9 +16,14 @@
 </div>
 
     <div>
-    <div> <strong>Creator</strong></div>
+    <div> <strong>Owner</strong></div>
     <div> @Result.Creator</div>
 </div>
+
+
+    <button class="btn-lg" @onclick="GoMembers">Members</button>
+
+
 }
 
 
@@ -41,5 +47,10 @@
 
         Result = await
         httpClient.GetFromJsonAsync<CircleGetByIdResult>($"api/v1/circles/{Id}");
+    }
+
+    public void GoMembers()
+    {
+        Navigation.NavigateTo($"circles/{Id}/members");
     }
 }
