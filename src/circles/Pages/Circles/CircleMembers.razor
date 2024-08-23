@@ -1,12 +1,42 @@
 @page "/circles/{CircleId}/members"
+@using circles.api.contracts.Members.Queries
+
+@inject IHttpClientFactory HttpClientFactory
 
 <h1>Circle Members</h1>
-<div>CircleId</div>
 
+<NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
+
+@if (members != null)
+{
+    <ul>
+    @foreach (var member in members)
+        {
+            <li>@member.Email</li>
+
+        }
+    </ul>
+
+}
 
 @code {
     [Parameter, EditorRequired]
     public string CircleId { get; set; } = string.Empty;
+
+    List<CircleListGetMemberResult>? members;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetMembers();
+    }
+
+    public async Task GetMembers()
+    {
+        var httpClient = HttpClientFactory.CreateClient("AuthorizedClient");
+
+        members = await
+        httpClient.GetFromJsonAsync<List<CircleListGetMemberResult>>($"api/v1/circles/{CircleId}/members");
+    }
 
 
 }
