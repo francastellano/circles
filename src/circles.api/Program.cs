@@ -8,6 +8,8 @@ using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHealthChecks();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
 
@@ -42,7 +44,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 var app = builder.Build();
 
 app.UseCors("PolicyOne");
-
+app.MapHealthChecks("/healthz");
 
 app.UseAuthentication();
 app.UseAuthorization();
