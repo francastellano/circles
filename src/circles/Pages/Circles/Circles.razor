@@ -13,7 +13,6 @@
 
 <h1>Circles</h1>
 
-
 <button type="button" class="btn btn-lg btn-primary" @onclick="Navigate">Add</button>
 
 <hr>
@@ -46,16 +45,21 @@
         {
             @foreach (var result in results)
             {
-                <tr>
-                    <td>
+                        <tr>
+                            <td>
 
-                        <NavLink class="link" href=" @($"circles/{@result.Id}")">@result.Denomination
-                        </NavLink>
+                                <NavLink class="link" href=" @($"circles/{@result.Id}")">@result.Denomination
+                                </NavLink>
 
-                    </td>
-                </tr>
+                            </td>
+                        </tr>
             }
         }
+        @if (_loading)
+        {
+        <Loading />
+        }
+
     </tbody>
 </table>
 
@@ -69,8 +73,8 @@
 
     protected async Task QueryCircles()
     {
-
         _loading = true;
+        results = null;
         var httpClient = HttpClientFactory.CreateClient("AuthorizedClient");
         var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"api/v1/circles?denomination={formParams.Denomination}");
 
