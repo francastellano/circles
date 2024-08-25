@@ -1,6 +1,6 @@
 @page "/circles/add"
 @inject NavigationManager Navigation
-@inject HttpClient Http
+@inject IHttpClientFactory HttpClientFactory
 
 <PageTitle>Circles</PageTitle>
 
@@ -38,14 +38,18 @@
 
         _loading = true;
 
-        var response = await Http.PostAsJsonAsync("/api/v1/circles", formParams);
+        var httpClient = HttpClientFactory.CreateClient("AuthorizedClient");
+
+        // Make the POST request
+        var response = await httpClient.PostAsJsonAsync("/api/v1/circles", formParams);
+
         if (response.IsSuccessStatusCode)
         {
             Navigation.NavigateTo("circles");
         }
         else
         {
-            messageComponent.ShowMessage("An error has happened creation the circle", 3);
+            messageComponent.ShowMessage("An error has happened while creating the circle", 3);
         }
 
 

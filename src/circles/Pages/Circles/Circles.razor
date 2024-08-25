@@ -62,15 +62,28 @@
 
 @code {
 
+    bool _loading;
+
     private CircleGetListParams formParams { get; set; } = new();
-    private CircleGetListResults[]? results;
+    private List<CircleGetListResults>? results;
 
-    private async Task QueryCircles()
+    protected async Task QueryCircles()
     {
-        var httpClient = HttpClientFactory.CreateClient("AuthorizedClient");
 
-        results = await
-        httpClient.GetFromJsonAsync<CircleGetListResults[]>($"api/v1/circles?denomination={formParams.Denomination}");
+        _loading = true;
+        var httpClient = HttpClientFactory.CreateClient("AuthorizedClient");
+        var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"api/v1/circles?denomination={formParams.Denomination}");
+
+        var response = await httpClient.SendAsync(requestMessage);
+        if (response.IsSuccessStatusCode)
+        {
+            results = await response.Content.ReadFromJsonAsync<List<CircleGetListResults>>();
+        }
+        else
+        {
+            Console.WriteLine(response.StatusCode);
+        }
+        _loading = false;
     }
 
     private void Navigate()
