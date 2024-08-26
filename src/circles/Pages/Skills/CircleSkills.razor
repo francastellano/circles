@@ -4,22 +4,20 @@
 @using circles.api.contracts.Skills.Queries
 
 <h2>Skills</h2>
-@if (_loading)
-{
-    <Loading />
-}
+
+<LoadingTag Loading="@_loading" />
 
 <NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
 
 
 @if (skills != null)
 {
-    <ul>
-    @foreach (var skill in skills)
+        <ul>
+        @foreach (var skill in skills)
         {
-            <li>@skill.Denomination</li>
+                    <li>@skill.Denomination</li>
         }
-    </ul>
+        </ul>
 }
 
 <CircleSkillForm CircleId="@CircleId" />

@@ -45,20 +45,17 @@
         {
             @foreach (var result in results)
             {
-                        <tr>
-                            <td>
+                <tr>
+                    <td>
 
-                                <NavLink class="link" href=" @($"circles/{@result.Id}")">@result.Denomination
-                                </NavLink>
+                        <NavLink class="link" href=" @($"circles/{@result.Id}")">@result.Denomination
+                        </NavLink>
 
-                            </td>
-                        </tr>
+                    </td>
+                </tr>
             }
         }
-        @if (_loading)
-        {
-        <Loading />
-        }
+        <LoadingTag Loading="@_loading" />
 
     </tbody>
 </table>
