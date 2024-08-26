@@ -1,0 +1,46 @@
+@page "/circles/{CircleId}/goals"
+@inject IHttpClientFactory HttpClientFactory
+
+@using circles.api.contracts.Goals.Queries
+
+<h2>Goals</h2>
+
+<LoadingTag Loading="@_loading" />
+
+<NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
+
+
+@if (goals != null)
+{
+    <ul>
+    @foreach (var goal in goals)
+        {
+            <li>@goal.Denomination</li>
+        }
+    </ul>
+}
+
+<CircleSkillForm CircleId="@CircleId" />
+
+@code {
+    bool _loading;
+    [Parameter, EditorRequired]
+    public string CircleId { get; set; } = string.Empty;
+
+    List<CircleGoalsGetListResult>? goals;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetItems();
+    }
+
+    public async Task GetItems()
+    {
+        _loading = true;
+        var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
+
+        goals = await
+        httpClient.GetFromJsonAsync<List<CircleGoalsGetListResult>>($"api/v1/circles/{CircleId}/goals?circleId={CircleId}");
+        _loading = false;
+    }
+}
