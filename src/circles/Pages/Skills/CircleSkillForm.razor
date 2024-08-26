@@ -1,0 +1,60 @@
+@inject IHttpClientFactory HttpClientFactory
+
+<h2>Add a new Skill</h2>
+
+<div>
+    <Message @ref="messageComponent" />
+</div>
+
+<EditForm Model="formParams" OnValidSubmit="AddSkill" FormName="add">
+
+    <div class="form-floating mb-3">
+        <input id="Email" type="text" placeholder="Denomination" @bind="formParams.Denomination" class="form-control"
+            autocomplete="off">
+        <label for="Denomination" class="form-label">Denomination</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <button type="submit" class="btn btn-lg btn-primary" disabled="@_loading">Add</button>
+    </div>
+
+</EditForm>
+
+
+@code {
+
+    bool _loading;
+    [Parameter, EditorRequired]
+    public string CircleId { get; set; } = string.Empty;
+    private Message messageComponent = new();
+
+    private AddFormParams formParams { get; set; } = new();
+
+    public async Task AddSkill()
+    {
+
+        _loading = true;
+        formParams.CircleId = CircleId;
+        var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
+        var response = await httpClient.PostAsJsonAsync("/api/v1/skills", formParams);
+
+        if (response.IsSuccessStatusCode)
+        {
+            messageComponent.ShowMessage("Skill has been created", 3);
+        }
+        else
+        {
+            messageComponent.ShowMessage("An error has happened while creating the Skill", 3);
+        }
+
+        _loading = false;
+
+    }
+
+    public class AddFormParams
+    {
+        public string CircleId { get; set; } = string.Empty;
+        public string Denomination { get; set; } = string.Empty;
+    }
+
+}
