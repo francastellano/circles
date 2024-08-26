@@ -12,6 +12,7 @@ public class CircleAddEndPoint(IMediator mediator) : Endpoint<CircleAddRequest, 
     {
         Verbs(Http.POST);
         Routes("/api/v1/circles");
+        Options(o => o.WithTags("Circles Management"));
     }
 
     public override async Task HandleAsync(CircleAddRequest req, CancellationToken ct)

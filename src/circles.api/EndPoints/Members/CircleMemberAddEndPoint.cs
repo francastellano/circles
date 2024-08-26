@@ -11,6 +11,7 @@ public class CircleMemberAddEndPoint(IMediator mediator) : Endpoint<CircleMember
     {
         Verbs(Http.POST);
         Routes("/api/v1/members");
+        Options(o => o.WithTags("Members Management"));
     }
 
     public override async Task HandleAsync(CircleMemberAddParams req, CancellationToken ct)
