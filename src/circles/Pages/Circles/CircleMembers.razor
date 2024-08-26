@@ -37,7 +37,7 @@
 
     public async Task GetMembers()
     {
-        var httpClient = HttpClientFactory.CreateClient("AuthorizedClient");
+        var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
 
         members = await
         httpClient.GetFromJsonAsync<List<CircleListGetMemberResult>>($"api/v1/circles/{CircleId}/members");

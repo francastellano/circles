@@ -13,14 +13,14 @@ if (uriApiBase is null)
     throw new InvalidOperationException("The configuration 'ApiSettings:BaseUri' value is null or empty");
 
 
-builder.Services.AddHttpClient("AuthorizedClient",
+builder.Services.AddHttpClient(CirclesConfiguration.DefaultHttpClient,
     client => client.BaseAddress = new Uri(uriApiBase))
     .AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddTransient<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddScoped(sp =>
-    sp.GetRequiredService<IHttpClientFactory>().CreateClient("AuthorizedClient"));
+    sp.GetRequiredService<IHttpClientFactory>().CreateClient(CirclesConfiguration.DefaultHttpClient));
 
 var tokenScope = builder.Configuration.GetValue<string>("AzureAdB2C:TokenScope");
 if (tokenScope is null)
