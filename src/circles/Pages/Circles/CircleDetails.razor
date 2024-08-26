@@ -22,6 +22,7 @@
 
 
     <button class="btn-lg" @onclick="GoMembers">Members</button>
+    <button class="btn-lg" @onclick="GoSkills">Skills</button>
 
 
 }
@@ -52,5 +53,11 @@
     public void GoMembers()
     {
         Navigation.NavigateTo($"circles/{Id}/members");
+    }
+
+
+    public void GoSkills()
+    {
+        Navigation.NavigateTo($"circles/{Id}/skills");
     }
 }

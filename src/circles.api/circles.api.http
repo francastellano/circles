@@ -1,8 +1,8 @@
 @circles.api_HostAddress = http://localhost:5130
 #@circles.api_HostAddress = https://api.circles4.com
 
-@circles.api_Token = Fake
-
+@circles.api_Token = eyJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhYjQ3MDRmMy0xZjJhLTRkMDQtODU2OS01ODQ0N2NiODg4NGQiLCJpc3MiOiJodHRwczovL2NpcmNsZXMwMy5iMmNsb2dpbi5jb20vZmRlYWExZmQtZGNkYS00Mzk3LWJiNmMtZWZlZDg4ODg0NTQwL3YyLjAvIiwiZXhwIjoxNzI0NjgyMjA3LCJuYmYiOjE3MjQ2Nzg2MDcsInN1YiI6IjFhMzRmOTVhLWFhOGItNGI2Zi1iNDMyLTNlYzIxNTFhMTliNyIsImdpdmVuX25hbWUiOiJQYWNvIiwiZW1haWxzIjpbImZyYW4uY2FzdGVsbGFub0BnbWFpbC5jb20iXSwidGZwIjoiQjJDXzFfU2luZzAxIiwibm9uY2UiOiI4MDFmMzI1NC0xMWYyLTQ4MzItOGYwZS01NTVmYzgxMWMxYjgiLCJzY3AiOiJVc2VyIiwiYXpwIjoiZGZjNTRhNTMtN2JkNC00M2RlLWJiYWItMzkwZjdiZjMzMDVlIiwidmVyIjoiMS4wIiwiaWF0IjoxNzI0Njc4NjA3fQ.qUT-i076dndkNnViD6jJo25RZlVQ99gh_S07IYIDMhdcElRqag7sGWB5zOJRNeFHjNoODgFVQcUAJnDsDyrO2DyMseUWMjA3ZvIQMU_u4u6rFfv2Ekhby0fGaHG5NQazR7_eoP6EwZoxsoCTFvOuDkAH-Lblsjk1tlVT3tpfa3NI4KfxXn2uvBAdrbBrsOTuoE-Rzs2R0P9_gXfFE3aIOFjrqp-qM7pv0YrhOqJ0FTssooPP-BGzKqKYoYlvOaaYty1xQuRqChH_05Tu5ZEnkRJUhPH4K7LMrWaMHSBVnZ1jxzD6KkLS9L1brYO3_ErCHZkOF7QCiBHdsv6gnh4ltw
+@circleId = bd864f94-ba96-4968-9f37-15b392e481a9
 ### Get circles
 
 GET {{circles.api_HostAddress}}/api/v1/circles?denomination=
@@ -28,6 +28,11 @@ Authorization: Bearer {{circles.api_Token}}
 
 {
   "circleId": "bd864f94-ba96-4968-9f37-15b392e481a9",
-  "denomination": "Viradas"
+  "denomination": "Maniobra de Aizado"
 }
-###
+### Get List
+
+GET {{circles.api_HostAddress}}/api/v1/circles/{{circleId}}/skills?circleId={{circleId}}
+Accept: application/json
+Authorization: Bearer {{circles.api_Token}}
+
