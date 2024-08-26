@@ -38,7 +38,7 @@
 
         _loading = true;
 
-        var httpClient = HttpClientFactory.CreateClient("AuthorizedClient");
+        var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
 
         // Make the POST request
         var response = await httpClient.PostAsJsonAsync("/api/v1/circles", formParams);

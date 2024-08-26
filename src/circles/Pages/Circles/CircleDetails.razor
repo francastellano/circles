@@ -43,7 +43,7 @@
 
     public async Task GetById()
     {
-        var httpClient = HttpClientFactory.CreateClient("AuthorizedClient");
+        var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
 
         Result = await
         httpClient.GetFromJsonAsync<CircleGetByIdResult>($"api/v1/circles/{Id}");

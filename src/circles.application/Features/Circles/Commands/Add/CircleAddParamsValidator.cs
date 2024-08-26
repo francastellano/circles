@@ -1,11 +1,9 @@
-
-
 using circles.api.contracts.Circles.Commands.Add;
 using FluentValidation;
 
 namespace circles.application.Features.Circles.Commands.Add;
 
-public class CircleAddParamsValidator : AbstractValidator<CircleAddParams>
+public class CircleAddParamsValidator : AbstractValidator<CircleAddRequest>
 {
     public CircleAddParamsValidator()
     {
