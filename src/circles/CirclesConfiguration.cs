@@ -2,5 +2,5 @@ namespace circles;
 
 public static class CirclesConfiguration
 {
-    public static string DefaultHttpClient = "AuthorizedClient";
+    public const string DefaultHttpClient = "AuthorizedClient";
 }
