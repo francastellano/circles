@@ -1,12 +1,43 @@
 @page "/circles/{CircleId}/skills"
+@inject IHttpClientFactory HttpClientFactory
 
+@using circles.api.contracts.Skills.Queries
 
 <h2>Skills</h2>
 
 <NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
 
+
+@if (skills != null)
+{
+    <ul>
+    @foreach (var skill in skills)
+        {
+            <li>@skill.Denomination</li>
+        }
+    </ul>
+}
+
 @code {
     [Parameter, EditorRequired]
     public string CircleId { get; set; } = string.Empty;
 
+    List<CircleSkillGetListResult>? skills;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetItems();
+    }
+
+    public async Task GetItems()
+    {
+        var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
+
+        skills = await
+        httpClient.GetFromJsonAsync<List<CircleSkillGetListResult>>($"api/v1/circles/{CircleId}/skills?circleId={CircleId}");
+
+        Console.WriteLine(CircleId);
+        Console.WriteLine(skills.Count);
+
+    }
 }
