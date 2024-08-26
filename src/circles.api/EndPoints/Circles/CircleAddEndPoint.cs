@@ -6,7 +6,7 @@ using MediatR;
 
 namespace circles.api.EndPoints;
 
-public class CircleAddEndPoint(IMediator mediator) : Endpoint<CircleAddParams, Guid>
+public class CircleAddEndPoint(IMediator mediator) : Endpoint<CircleAddRequest, Guid>
 {
     public override void Configure()
     {
@@ -14,7 +14,7 @@ public class CircleAddEndPoint(IMediator mediator) : Endpoint<CircleAddParams, G
         Routes("/api/v1/circles");
     }
 
-    public override async Task HandleAsync(CircleAddParams req, CancellationToken ct)
+    public override async Task HandleAsync(CircleAddRequest req, CancellationToken ct)
     {
         var email = User.Claims.FirstOrDefault(e => e.Type == "emails");
         if (email is null)

@@ -5,14 +5,14 @@ using FluentValidation;
 using MediatR;
 
 namespace circles.application.Features.Circles.Commands.Add;
-public sealed record CirclesAddCommand(CircleAddParams Parameter, string Email) : IRequest;
+public sealed record CirclesAddCommand(CircleAddRequest Parameter, string Email) : IRequest;
 
 internal sealed record CirclesAddCommandHandler : IRequestHandler<CirclesAddCommand>
 {
     private readonly CirclesDbContext DbContext;
-    private readonly IValidator<CircleAddParams> _validator;
+    private readonly IValidator<CircleAddRequest> _validator;
 
-    public CirclesAddCommandHandler(CirclesDbContext dbContext, IValidator<CircleAddParams> validator)
+    public CirclesAddCommandHandler(CirclesDbContext dbContext, IValidator<CircleAddRequest> validator)
     {
         DbContext = dbContext;
         _validator = validator;
