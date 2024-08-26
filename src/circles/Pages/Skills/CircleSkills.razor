@@ -1,0 +1,12 @@
+@page "/circles/{CircleId}/skills"
+
+
+<h2>Skills</h2>
+
+<NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
+
+@code {
+    [Parameter, EditorRequired]
+    public string CircleId { get; set; } = string.Empty;
+
+}
