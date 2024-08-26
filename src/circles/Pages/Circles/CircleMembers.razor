@@ -1,5 +1,6 @@
 @page "/circles/{CircleId}/members"
 @using circles.api.contracts.Members.Queries
+@using circles.Pages.Members
 
 @inject IHttpClientFactory HttpClientFactory
 
@@ -17,7 +18,11 @@
         }
     </ul>
 
+
+    <MemberForm CircleId="@CircleId" />
 }
+
+
 
 @code {
     [Parameter, EditorRequired]
