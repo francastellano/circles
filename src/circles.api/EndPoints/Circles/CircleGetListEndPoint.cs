@@ -11,6 +11,7 @@ public class CircleGetListEndPoint(IMediator mediator) : Endpoint<CircleGetListP
     {
         Verbs(Http.GET);
         Routes("/api/v1/circles");
+        Options(o => o.WithTags("Circles Management"));
     }
 
     public override async Task HandleAsync(CircleGetListParams req, CancellationToken ct)

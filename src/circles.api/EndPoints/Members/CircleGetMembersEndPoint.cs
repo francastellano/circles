@@ -11,6 +11,7 @@ public class CircleGetMembersEndPoint(IMediator mediator) : Endpoint<CircleGetLi
     {
         Verbs(Http.GET);
         Routes("/api/v1/circles/{Id}/members");
+        Options(o => o.WithTags("Members Management"));
     }
 
     public override async Task HandleAsync(CircleGetListMembersRequest req, CancellationToken ct)
