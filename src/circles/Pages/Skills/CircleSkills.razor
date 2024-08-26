@@ -4,6 +4,10 @@
 @using circles.api.contracts.Skills.Queries
 
 <h2>Skills</h2>
+@if (_loading)
+{
+    <Loading />
+}
 
 <NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
 
@@ -18,7 +22,10 @@
     </ul>
 }
 
+<CircleSkillForm CircleId="@CircleId" />
+
 @code {
+    bool _loading;
     [Parameter, EditorRequired]
     public string CircleId { get; set; } = string.Empty;
 
@@ -31,13 +38,12 @@
 
     public async Task GetItems()
     {
+        _loading = true;
+        await Task.Delay(2000);
         var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
 
         skills = await
         httpClient.GetFromJsonAsync<List<CircleSkillGetListResult>>($"api/v1/circles/{CircleId}/skills?circleId={CircleId}");
-
-        Console.WriteLine(CircleId);
-        Console.WriteLine(skills.Count);
-
+        _loading = false;
     }
 }
