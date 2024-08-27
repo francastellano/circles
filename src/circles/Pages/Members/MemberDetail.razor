@@ -1,9 +1,34 @@
 @page "/members/{MemberId}"
+@inject IHttpClientFactory HttpClientFactory
 
-@MemberId
+@using circles.api.contracts.Members.Queries
+
+@if (Result != null)
+{
+    <section>
+    <div>Email</div>
+    <div>@Result.Email</div>
+</section>
+}
+
 
 
 @code {
     [Parameter]
     public string MemberId { get; set; } = string.Empty;
+
+    CircleMemberGetByIdResponse? Result;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetById();
+    }
+
+    public async Task GetById()
+    {
+        var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
+
+        Result = await
+        httpClient.GetFromJsonAsync<CircleMemberGetByIdResponse>($"api/v1/members/{MemberId}");
+    }
 }
