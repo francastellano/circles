@@ -1,5 +1,5 @@
 using circles.domain.Abstractions;
-using circles.domain.Circles;
+using circles.domain.Members;
 using circles.domain.Skills;
 
 namespace circles.domain.MemberSkills;
@@ -8,18 +8,18 @@ public class MemberSkill : BaseEntity
 {
     internal MemberSkill() { }
 
-    internal MemberSkill(Circle circle, CircleSkill skill)
+    internal MemberSkill(CircleMember member, CircleSkill skill)
     {
         Skill = skill;
-        Circle = circle;
+        Member = member;
     }
 
-    public Circle Circle { get; set; }
+    public CircleMember Member { get; set; }
     public CircleSkill Skill { get; set; }
 
-    public static MemberSkill Create(Circle circle, CircleSkill skill)
+    public static MemberSkill Create(CircleMember member, CircleSkill skill)
     {
-        var item = new MemberSkill(circle, skill);
+        var item = new MemberSkill(member, skill);
         return item;
     }
 
