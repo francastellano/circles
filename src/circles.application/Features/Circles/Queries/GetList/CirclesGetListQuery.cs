@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Circles.Queries.GetList;
 
-public sealed record CirclesGetListQuery(CircleGetListParams Param) : IRequest<List<CircleGetListResults>>;
+public sealed record CirclesGetListQuery(CircleGetListRequest Param) : IRequest<List<CircleGetListResults>>;
 
 internal sealed record CirclesGetListQueryHandler : IRequestHandler<CirclesGetListQuery, List<CircleGetListResults>>
 {

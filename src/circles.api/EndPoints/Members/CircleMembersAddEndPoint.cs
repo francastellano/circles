@@ -1,11 +1,11 @@
-
-using circles.api.contracts.Members;
+using circles.api.contracts.Members.Commands;
 using circles.application.Features.Members.Commands.Add;
 using FastEndpoints;
 using MediatR;
 
 namespace circles.api.EndPoints.Members;
-public class CircleMemberAddEndPoint(IMediator mediator) : Endpoint<CircleMemberAddParams, Guid>
+
+public class CircleMembersAddEndPoint(IMediator mediator) : Endpoint<CircleMemberAddRequest, Guid>
 {
     public override void Configure()
     {
@@ -14,7 +14,7 @@ public class CircleMemberAddEndPoint(IMediator mediator) : Endpoint<CircleMember
         Options(o => o.WithTags("Members Management"));
     }
 
-    public override async Task HandleAsync(CircleMemberAddParams req, CancellationToken ct)
+    public override async Task HandleAsync(CircleMemberAddRequest req, CancellationToken ct)
     {
         await mediator.Send(new MembersAddCommand(req), ct);
     }

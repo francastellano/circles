@@ -5,8 +5,7 @@ using MediatR;
 
 namespace circles.api.EndPoints.Skills;
 
-
-public class CircleSkillAddEndPoint(IMediator mediator) : Endpoint<CircleSkillAddRequest, Guid>
+public class CircleSkillsAddEndPoint(IMediator mediator) : Endpoint<CircleSkillAddRequest, Guid>
 {
     public override void Configure()
     {

@@ -1,4 +1,4 @@
-using circles.api.contracts.Members;
+using circles.api.contracts.Members.Commands;
 using circles.application.Exceptions;
 using circles.domain.Members;
 using circles.infrastructure.Context;
@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Members.Commands.Add;
 
-public sealed record MembersAddCommand(CircleMemberAddParams Params) : IRequest;
+public sealed record MembersAddCommand(CircleMemberAddRequest Params) : IRequest;
 
 internal sealed record MembersAddCommandHandler(CirclesDbContext DbContext) : IRequestHandler<MembersAddCommand>
 {

@@ -32,8 +32,6 @@
 
 </EditForm>
 
-
-
 <table class="table">
     <thead>
         <tr>
@@ -65,7 +63,7 @@
 
     bool _loading;
 
-    private CircleGetListParams formParams { get; set; } = new();
+    private CircleQueryForm formParams { get; set; } = new();
     private List<CircleGetListResults>? results;
 
     protected async Task QueryCircles()
@@ -80,15 +78,16 @@
         {
             results = await response.Content.ReadFromJsonAsync<List<CircleGetListResults>>();
         }
-        else
-        {
-            Console.WriteLine(response.StatusCode);
-        }
         _loading = false;
     }
 
     private void Navigate()
     {
         Navigation.NavigateTo("circles/add");
+    }
+
+    class CircleQueryForm
+    {
+        public string? Denomination { get; set; }
     }
 }
