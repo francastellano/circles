@@ -1,5 +1,6 @@
 using circles.domain.Abstractions;
 using circles.domain.Circles;
+using circles.domain.Skills.Events;
 
 namespace circles.domain.Skills;
 
@@ -19,6 +20,8 @@ public class CircleSkill : BaseEntity
     public static CircleSkill Create(Circle circle, string denomination)
     {
         var item = new CircleSkill(circle, denomination);
+        item.Id = Guid.NewGuid();
+        item.RaiseDomainEvent(new SkillCreatedEvent(item.Id));
         return item;
     }
 }

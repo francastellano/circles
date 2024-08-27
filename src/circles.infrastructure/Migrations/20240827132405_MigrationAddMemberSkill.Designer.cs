@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using circles.infrastructure.Context;
@@ -11,9 +12,11 @@ using circles.infrastructure.Context;
 namespace circles.infrastructure.Migrations
 {
     [DbContext(typeof(CirclesDbContext))]
-    partial class CirclesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240827132405_MigrationAddMemberSkill")]
+    partial class MigrationAddMemberSkill
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,7 +70,7 @@ namespace circles.infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("MemberId")
+                    b.Property<Guid>("CircleId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("SkillId")
@@ -75,7 +78,7 @@ namespace circles.infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("CircleId");
 
                     b.HasIndex("SkillId");
 
@@ -135,9 +138,9 @@ namespace circles.infrastructure.Migrations
 
             modelBuilder.Entity("circles.domain.MemberSkills.MemberSkill", b =>
                 {
-                    b.HasOne("circles.domain.Members.CircleMember", "Member")
+                    b.HasOne("circles.domain.Circles.Circle", "Circle")
                         .WithMany()
-                        .HasForeignKey("MemberId")
+                        .HasForeignKey("CircleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -147,7 +150,7 @@ namespace circles.infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Member");
+                    b.Navigation("Circle");
 
                     b.Navigation("Skill");
                 });

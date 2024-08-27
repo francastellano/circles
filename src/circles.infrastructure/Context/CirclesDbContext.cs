@@ -2,6 +2,7 @@ using circles.domain.Abstractions;
 using circles.domain.Circles;
 using circles.domain.Goals;
 using circles.domain.Members;
+using circles.domain.MemberSkills;
 using circles.domain.Skills;
 
 using MediatR;
@@ -14,6 +15,7 @@ public class CirclesDbContext(DbContextOptions<CirclesDbContext> options, IMedia
     public DbSet<CircleMember> CircleMembers { get; set; } = null!;
     public DbSet<CircleSkill> CircleSkills { get; set; } = null!;
     public DbSet<CircleGoal> CircleGoals { get; set; } = null!;
+    public DbSet<MemberSkill> MemberSkills { get; set; } = null!;
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
