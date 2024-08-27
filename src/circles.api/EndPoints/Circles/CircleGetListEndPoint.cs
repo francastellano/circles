@@ -5,7 +5,7 @@ using circles.application.Features.Circles.Queries.GetList;
 
 namespace circles.api.EndPoints.Circles;
 
-public class CircleGetListEndPoint(IMediator mediator) : Endpoint<CircleGetListParams, List<CircleGetListResults>>
+public class CircleGetListEndPoint(IMediator mediator) : Endpoint<CircleGetListRequest, List<CircleGetListResults>>
 {
     public override void Configure()
     {
@@ -14,7 +14,7 @@ public class CircleGetListEndPoint(IMediator mediator) : Endpoint<CircleGetListP
         Options(o => o.WithTags("Circles Management"));
     }
 
-    public override async Task HandleAsync(CircleGetListParams req, CancellationToken ct)
+    public override async Task HandleAsync(CircleGetListRequest req, CancellationToken ct)
     {
         var result = await mediator.Send(new CirclesGetListQuery(req), ct);
         await SendAsync(result);
