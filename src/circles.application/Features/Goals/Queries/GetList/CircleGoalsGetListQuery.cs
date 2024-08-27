@@ -5,20 +5,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Members.Queries.GetList;
 
-public sealed record CirclesGoalsGetListQuery(Guid Id) : IRequest<List<CircleGoalsGetListResult>>;
+public sealed record CircleGoalsGetListQuery(Guid Id) : IRequest<List<CircleGoalsGetListResult>>;
 
-internal sealed record CirclesGoalsGetListQueryHandler : IRequestHandler<CirclesGoalsGetListQuery, List<CircleGoalsGetListResult>>
+internal sealed record CircleGoalsGetListQueryHandler : IRequestHandler<CircleGoalsGetListQuery, List<CircleGoalsGetListResult>>
 {
 
     private readonly CirclesDbContext _context;
 
-    public CirclesGoalsGetListQueryHandler(CirclesDbContext dbContext)
+    public CircleGoalsGetListQueryHandler(CirclesDbContext dbContext)
     {
         _context = dbContext;
     }
 
 
-    public async Task<List<CircleGoalsGetListResult>> Handle(CirclesGoalsGetListQuery request, CancellationToken cancellationToken)
+    public async Task<List<CircleGoalsGetListResult>> Handle(CircleGoalsGetListQuery request, CancellationToken cancellationToken)
     {
         var baseQuery = _context.CircleGoals
                 .Where(e => e.Circle.Id == request.Id)

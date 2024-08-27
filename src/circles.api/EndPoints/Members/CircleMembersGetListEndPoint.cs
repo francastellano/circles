@@ -5,7 +5,7 @@ using MediatR;
 
 namespace circles.api.EndPoints.Members;
 
-public class CircleGetMembersEndPoint(IMediator mediator) : Endpoint<CircleGetListMembersRequest, List<CircleListGetMemberResult>>
+public class CircleMembersGetListEndPoint(IMediator mediator) : Endpoint<CircleGetListMembersRequest, List<CircleListGetMemberResult>>
 {
     public override void Configure()
     {

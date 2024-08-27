@@ -7,7 +7,7 @@ using MediatR;
 
 namespace circles.api.EndPoints.Skills;
 
-public class CircleGolsGetListEndPoint(IMediator mediator) : Endpoint<CircleGoalsGetListRequest, List<CircleGoalsGetListResult>>
+public class CircleGoalsGetListEndPoint(IMediator mediator) : Endpoint<CircleGoalsGetListRequest, List<CircleGoalsGetListResult>>
 {
     public override void Configure()
     {
@@ -18,7 +18,7 @@ public class CircleGolsGetListEndPoint(IMediator mediator) : Endpoint<CircleGoal
 
     public override async Task HandleAsync(CircleGoalsGetListRequest req, CancellationToken ct)
     {
-        var result = await mediator.Send(new CirclesGoalsGetListQuery(req.CircleId), ct);
+        var result = await mediator.Send(new CircleGoalsGetListQuery(req.CircleId), ct);
         await SendAsync(result);
     }
 }
