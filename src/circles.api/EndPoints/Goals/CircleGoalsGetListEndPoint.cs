@@ -1,7 +1,5 @@
 using circles.api.contracts.Goals.Queries;
-using circles.api.contracts.Skills.Queries;
 using circles.application.Features.Members.Queries.GetList;
-using circles.application.Features.Skills.Queries;
 using FastEndpoints;
 using MediatR;
 
@@ -19,6 +17,6 @@ public class CircleGoalsGetListEndPoint(IMediator mediator) : Endpoint<CircleGoa
     public override async Task HandleAsync(CircleGoalsGetListRequest req, CancellationToken ct)
     {
         var result = await mediator.Send(new CircleGoalsGetListQuery(req.CircleId), ct);
-        await SendAsync(result);
+        await SendAsync(result, cancellation: ct);
     }
 }

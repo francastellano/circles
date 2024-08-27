@@ -1,11 +1,11 @@
-
 using circles.api.contracts.Members.Commands;
 using circles.application.Features.Members.Commands.Add;
 using FastEndpoints;
 using MediatR;
 
 namespace circles.api.EndPoints.Members;
-public class CircleMemberAddEndPoint(IMediator mediator) : Endpoint<CircleMemberAddRequest, Guid>
+
+public class CircleMembersAddEndPoint(IMediator mediator) : Endpoint<CircleMemberAddRequest, Guid>
 {
     public override void Configure()
     {
