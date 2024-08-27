@@ -6,8 +6,16 @@ using MediatR;
 
 namespace circles.api.EndPoints;
 
-public class CircleAddEndPoint(IMediator mediator) : Endpoint<CircleAddRequest, Guid>
+public class CircleAddEndPoint : Endpoint<CircleAddRequest, Guid>
 {
+
+    private readonly IMediator _mediator;
+
+    public CircleAddEndPoint(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
+
     public override void Configure()
     {
         Verbs(Http.POST);
@@ -17,10 +25,10 @@ public class CircleAddEndPoint(IMediator mediator) : Endpoint<CircleAddRequest, 
 
     public override async Task HandleAsync(CircleAddRequest req, CancellationToken ct)
     {
-        var email = User.Claims.FirstOrDefault(e => e.Type == "emails");
-        if (email is null)
+        var email = User.Claims.FirstOrDefault(e => e.Type == "emails")?.Value;
+        if (string.IsNullOrEmpty(email))
             throw new UserCantBeFoundException();
 
-        await mediator.Send(new CirclesAddCommand(req, email.Value), ct);
+        await _mediator.Send(new CirclesAddCommand(req, email), ct);
     }
 }
