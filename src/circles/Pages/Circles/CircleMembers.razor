@@ -15,7 +15,12 @@
         <ul>
         @foreach (var member in members)
         {
-                    <li>@member.Email</li>
+                    <li>
+                        <NavLink href="@($"members/{member.Id}")">
+                        
+                        @member.Email
+                        </NavLink>
+                        </li>
 
         }
         </ul>

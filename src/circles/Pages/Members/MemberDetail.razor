@@ -1,0 +1,9 @@
+@page "/members/{MemberId}"
+
+@MemberId
+
+
+@code {
+    [Parameter]
+    public string MemberId { get; set; } = string.Empty;
+}
