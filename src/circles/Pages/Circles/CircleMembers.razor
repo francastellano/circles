@@ -12,21 +12,21 @@
 
 @if (members != null)
 {
-        <ul>
-        @foreach (var member in members)
+    <ul>
+    @foreach (var member in members)
         {
-                    <li>
-                        <NavLink href="@($"members/{member.Id}")">
-                        
-                        @member.Email
-                        </NavLink>
-                        </li>
+            <li>
+                <NavLink href="@($"members/{member.Id}")">
+
+                    @member.Email
+                </NavLink>
+            </li>
 
         }
-        </ul>
+    </ul>
 
 
-        <MemberForm CircleId="@CircleId" />
+    <MemberForm CircleId="@CircleId" />
 }
 
 

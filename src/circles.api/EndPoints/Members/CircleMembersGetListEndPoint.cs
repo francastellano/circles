@@ -17,6 +17,9 @@ public class CircleMembersGetListEndPoint(IMediator mediator) : Endpoint<CircleG
     public override async Task HandleAsync(CircleGetListMembersRequest req, CancellationToken ct)
     {
         var result = await mediator.Send(new CirclesMembersGetListQuery(req.Id), ct);
-        await SendAsync(result, cancellation: ct);
+        if (result.IsSuccess)
+            await SendAsync(result.Value, cancellation: ct);
+        else
+            await SendErrorsAsync(cancellation: ct);
     }
 }
