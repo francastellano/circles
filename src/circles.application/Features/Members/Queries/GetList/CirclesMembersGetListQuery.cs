@@ -28,6 +28,7 @@ internal sealed record CirclesMembersGetListQueryHandler : IRequestHandler<Circl
         var query = baseQuery.Select(
             e => new CircleListGetMemberResult(
                 e.Id,
+                e.Circle.Id,
                 e.Email
             )
         );
