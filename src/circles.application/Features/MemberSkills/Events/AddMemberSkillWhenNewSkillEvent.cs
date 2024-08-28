@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.MemberSkills.Events;
 
-public sealed record AddMembersToNewSkillEvent : INotificationHandler<SkillCreatedEvent>
+public sealed record AddMemberSkillWhenNewSkillEvent : INotificationHandler<SkillCreatedEvent>
 {
 
     private readonly CirclesDbContext _dbContext;
-    public AddMembersToNewSkillEvent(CirclesDbContext dbContext)
+    public AddMemberSkillWhenNewSkillEvent(CirclesDbContext dbContext)
     {
         _dbContext = dbContext;
     }
