@@ -1,7 +1,6 @@
 using circles.application.Exceptions;
 using circles.domain.Members.Events;
 using circles.domain.MemberSkills;
-using circles.domain.Skills.Events;
 using circles.infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
