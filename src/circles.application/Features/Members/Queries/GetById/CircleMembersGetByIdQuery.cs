@@ -20,12 +20,17 @@ internal sealed record CircleMembersGetByIdQueryHandler : IRequestHandler<Circle
 
     public async Task<CircleMemberGetByIdResponse> Handle(CircleMembersGetByIdQuery request, CancellationToken cancellationToken)
     {
-        var data = await _circlesDbContext.CircleMembers.FirstOrDefaultAsync(e => e.Id == request.Id, cancellationToken);
+        var data = await _circlesDbContext.CircleMembers
+            .Include(e => e.Circle)
+            .FirstOrDefaultAsync(e => e.Id == request.Id, cancellationToken);
 
         if (data is null)
             throw new ItemCantBeFoundException("Circle Member");
 
-        var response = new CircleMemberGetByIdResponse(data.Id, data.Email);
+
+        var skillMember = await _circlesDbContext.MemberSkills.Where(e => e.Member.Id == request.Id).Select(e => e.Skill.Denomination).ToListAsync(cancellationToken);
+
+        var response = new CircleMemberGetByIdResponse(data.Id, data.Circle.Id.ToString(), data.Email, skillMember);
         return response;
     }
 }

@@ -3,17 +3,40 @@
 
 @using circles.api.contracts.Members.Queries
 
+
+<LoadingTag Loading="@_loading" />
+
 @if (Result != null)
 {
+
+    <NavLink class="nav-link" href="@($"circles/{Result.CircleId}")">Circle</NavLink>
+    <NavLink class="nav-link" href="@($"circles/{Result.CircleId}/members")">Members</NavLink>
+
     <section>
     <div>Email</div>
     <div>@Result.Email</div>
 </section>
+    <section>
+    <div>Skills</div>
+    <div>
+        <ul>
+            @foreach (var skillMember in @Result.Skills)
+                {
+                    <li>@skillMember</li>
+                }
+            </ul>
+
+
+
+        </div>
+
+    </section>
 }
 
 
 
 @code {
+    bool _loading;
     [Parameter]
     public string MemberId { get; set; } = string.Empty;
 
@@ -26,9 +49,12 @@
 
     public async Task GetById()
     {
+        _loading = true;
         var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
 
         Result = await
         httpClient.GetFromJsonAsync<CircleMemberGetByIdResponse>($"api/v1/members/{MemberId}");
+
+        _loading = false;
     }
 }
