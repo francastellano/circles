@@ -29,6 +29,10 @@ public class CircleAddEndPoint : Endpoint<CircleAddRequest, Guid>
         if (string.IsNullOrEmpty(email))
             throw new UserCantBeFoundException();
 
-        await _mediator.Send(new CirclesAddCommand(req, email), ct);
+        var result = await _mediator.Send(new CirclesAddCommand(req, email), ct);
+        if (result.IsSuccess)
+            await SendOkAsync(ct);
+        else
+            await SendErrorsAsync(cancellation: ct);
     }
 }

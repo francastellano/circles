@@ -1,13 +1,15 @@
 using circles.api.contracts.Circles.Commands.Add;
+using circles.application.Abstractions.Messages;
+using circles.domain.Abstractions;
 using circles.domain.Circles;
 using circles.infrastructure.Context;
 using FluentValidation;
 using MediatR;
 
 namespace circles.application.Features.Circles.Commands.Add;
-public sealed record CirclesAddCommand(CircleAddRequest Parameter, string Email) : IRequest;
+public sealed record CirclesAddCommand(CircleAddRequest Parameter, string Email) : ICommand;
 
-internal sealed record CirclesAddCommandHandler : IRequestHandler<CirclesAddCommand>
+internal sealed record CirclesAddCommandHandler : ICommandHandler<CirclesAddCommand>
 {
     private readonly CirclesDbContext DbContext;
     private readonly IValidator<CircleAddRequest> _validator;
@@ -18,12 +20,13 @@ internal sealed record CirclesAddCommandHandler : IRequestHandler<CirclesAddComm
         _validator = validator;
 
     }
-    public async Task Handle(CirclesAddCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(CirclesAddCommand request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request.Parameter, cancellationToken);
 
         if (!validationResult.IsValid)
         {
+            //TODO: We have to remove exception and move to Result
             throw new ValidationException(validationResult.Errors);
         }
 
@@ -31,5 +34,7 @@ internal sealed record CirclesAddCommandHandler : IRequestHandler<CirclesAddComm
 
         await DbContext.Circles.AddAsync(data, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
+
+        return Result.Success();
     }
 }
