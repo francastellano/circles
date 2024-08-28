@@ -1,5 +1,7 @@
 using circles.api.contracts.Goals.Commands;
+using circles.application.Abstractions.Messages;
 using circles.application.Exceptions;
+using circles.domain.Abstractions;
 using circles.domain.Goals;
 using circles.infrastructure.Context;
 using MediatR;
@@ -7,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Goals.Commands;
 
-public sealed record CircleGoalAddCommand(CircleGoalAddRequest Params) : IRequest;
+public sealed record CircleGoalAddCommand(CircleGoalAddRequest Params) : ICommand;
 
-internal sealed record CircleGoalAddCommandHandler : IRequestHandler<CircleGoalAddCommand>
+internal sealed record CircleGoalAddCommandHandler : ICommandHandler<CircleGoalAddCommand>
 {
 
     private readonly CirclesDbContext _dbContext;
@@ -18,7 +20,7 @@ internal sealed record CircleGoalAddCommandHandler : IRequestHandler<CircleGoalA
     {
         _dbContext = dbContext;
     }
-    public async Task Handle(CircleGoalAddCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(CircleGoalAddCommand request, CancellationToken cancellationToken)
     {
         var circle = await _dbContext.Circles.FirstOrDefaultAsync(e => e.Id == request.Params.CircleId, cancellationToken: cancellationToken);
         if (circle is null)
@@ -28,5 +30,7 @@ internal sealed record CircleGoalAddCommandHandler : IRequestHandler<CircleGoalA
 
         await _dbContext.AddAsync(item, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return Result.Success();
     }
 }
