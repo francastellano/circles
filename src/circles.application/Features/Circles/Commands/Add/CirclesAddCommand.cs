@@ -26,7 +26,7 @@ internal sealed record CirclesAddCommandHandler : ICommandHandler<CirclesAddComm
 
         if (!validationResult.IsValid)
         {
-            return Result.Failure(new Error("100", validationResult.Errors.First().ErrorMessage));
+            return Result.Failure(new Error("100", validationResult.Errors[0].ErrorMessage));
         }
 
         var data = Circle.Create(request.Parameter.Denomination, request.Email);
