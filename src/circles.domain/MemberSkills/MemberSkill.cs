@@ -1,5 +1,6 @@
 using circles.domain.Abstractions;
 using circles.domain.Members;
+using circles.domain.MemberSkills.Events;
 using circles.domain.Skills;
 
 namespace circles.domain.MemberSkills;
@@ -20,6 +21,8 @@ public class MemberSkill : BaseEntity
     public static MemberSkill Create(CircleMember member, CircleSkill skill)
     {
         var item = new MemberSkill(member, skill);
+        item.Id = Guid.NewGuid();
+        item.RaiseDomainEvent(new MemberSkillCreatedEvent(item.Id));
         return item;
     }
 
