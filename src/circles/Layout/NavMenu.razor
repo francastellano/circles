@@ -1,4 +1,7 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager Navigation
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">circles</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -20,16 +23,55 @@
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Circles
             </NavLink>
         </div>
+
+        @if (@circleId != null)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/members"))">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span>
+                    Members
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/skills"))">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Skills
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/goals"))">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Goals
+                </NavLink>
+            </div>
+
+
+        }
     </nav>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+    private string? circleId;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    private async Task LoadFromLocalStorage()
+    {
+        circleId = await localStorage.GetItemAsync<string>("circleId");
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFromLocalStorage();
+    }
+
+    public async Task Navigate(string uri)
+    {
+        await LoadFromLocalStorage();
+        Navigation.NavigateTo(uri);
     }
 }

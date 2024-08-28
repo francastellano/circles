@@ -3,6 +3,8 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
 @using circles.api.contracts.Circles.Queries.GetList
 
 @inject NavigationManager Navigation
@@ -35,7 +37,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Denomination</th>
+            <th colspan="2">Denomination</th>
         </tr>
     </thead>
     <tbody>
@@ -45,15 +47,15 @@
             {
                 <tr>
                     <td>
-
-                        <NavLink class="link" href=" @($"circles/{@result.Id}")">@result.Denomination
-                        </NavLink>
-
+                        @result.Denomination
+                    </td>
+                    <td>
+                        <button @onclick="@(()=> NavigateToCircle(@result.Id.ToString()))">Go</button>
                     </td>
                 </tr>
             }
         }
-        <LoadingTag Loading="@_loading" />
+        <LoadingTag Loading="@_loading" /> 
 
     </tbody>
 </table>
@@ -89,5 +91,12 @@
     class CircleQueryForm
     {
         public string? Denomination { get; set; }
+    }
+
+    private async Task NavigateToCircle(string CircleId)
+    {
+
+        await localStorage.SetItemAsync("circleId", CircleId);
+        Navigation.NavigateTo($"circles/{CircleId}");
     }
 }

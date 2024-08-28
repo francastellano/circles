@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using circles;
+using Blazored.LocalStorage;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -25,6 +26,8 @@ builder.Services.AddScoped(sp =>
 var tokenScope = builder.Configuration.GetValue<string>("AzureAdB2C:TokenScope");
 if (tokenScope is null)
     throw new InvalidOperationException("The configuration 'ApiSettings:tokenScope' value is null or empty");
+
+builder.Services.AddBlazoredLocalStorage();
 
 builder.Services.AddMsalAuthentication(options =>
 {
