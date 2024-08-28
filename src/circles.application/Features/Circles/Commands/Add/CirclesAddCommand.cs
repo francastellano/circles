@@ -26,8 +26,7 @@ internal sealed record CirclesAddCommandHandler : ICommandHandler<CirclesAddComm
 
         if (!validationResult.IsValid)
         {
-            //TODO: We have to remove exception and move to Result
-            throw new ValidationException(validationResult.Errors);
+            return Result.Failure(new Error("100", validationResult.Errors.First().ErrorMessage));
         }
 
         var data = Circle.Create(request.Parameter.Denomination, request.Email);
