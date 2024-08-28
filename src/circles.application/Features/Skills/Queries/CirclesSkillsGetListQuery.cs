@@ -1,13 +1,15 @@
 using circles.api.contracts.Skills.Queries;
+using circles.application.Abstractions.Messages;
+using circles.domain.Abstractions;
 using circles.infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Skills.Queries;
 
-public sealed record CirclesSkillsGetListQuery(Guid Id) : IRequest<List<CircleSkillGetListResult>>;
+public sealed record CirclesSkillsGetListQuery(Guid Id) : IQuery<List<CircleSkillGetListResult>>;
 
-internal sealed record CirclesSkillsGetListQueryHandler : IRequestHandler<CirclesSkillsGetListQuery, List<CircleSkillGetListResult>>
+internal sealed record CirclesSkillsGetListQueryHandler : IQueryHandler<CirclesSkillsGetListQuery, List<CircleSkillGetListResult>>
 {
 
     private readonly CirclesDbContext _context;
@@ -17,7 +19,7 @@ internal sealed record CirclesSkillsGetListQueryHandler : IRequestHandler<Circle
         _context = dbContext;
     }
 
-    public async Task<List<CircleSkillGetListResult>> Handle(CirclesSkillsGetListQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<CircleSkillGetListResult>>> Handle(CirclesSkillsGetListQuery request, CancellationToken cancellationToken)
     {
         Console.WriteLine(request.Id);
         var baseQuery = _context.CircleSkills

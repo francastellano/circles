@@ -1,14 +1,16 @@
 using circles.api.contracts.Members.Queries;
+using circles.application.Abstractions.Messages;
 using circles.application.Exceptions;
+using circles.domain.Abstractions;
 using circles.infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Members.Queries.GetById;
 
-public sealed record CircleMembersGetByIdQuery(Guid Id) : IRequest<CircleMemberGetByIdResponse>;
+public sealed record CircleMembersGetByIdQuery(Guid Id) : IQuery<CircleMemberGetByIdResponse>;
 
-internal sealed record CircleMembersGetByIdQueryHandler : IRequestHandler<CircleMembersGetByIdQuery, CircleMemberGetByIdResponse>
+internal sealed record CircleMembersGetByIdQueryHandler : IQueryHandler<CircleMembersGetByIdQuery, CircleMemberGetByIdResponse>
 {
 
     private readonly CirclesDbContext _circlesDbContext;
@@ -18,7 +20,7 @@ internal sealed record CircleMembersGetByIdQueryHandler : IRequestHandler<Circle
     }
 
 
-    public async Task<CircleMemberGetByIdResponse> Handle(CircleMembersGetByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<CircleMemberGetByIdResponse>> Handle(CircleMembersGetByIdQuery request, CancellationToken cancellationToken)
     {
         var data = await _circlesDbContext.CircleMembers
             .Include(e => e.Circle)

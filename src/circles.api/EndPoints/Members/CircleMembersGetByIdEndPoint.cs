@@ -17,6 +17,9 @@ public class CircleMembersGetByIdEndPoint(IMediator mediator) : Endpoint<CircleM
     {
         var result = await mediator.Send(new CircleMembersGetByIdQuery(req.Id), ct);
 
-        await SendAsync(result, cancellation: ct);
+        if (result.IsSuccess)
+            await SendAsync(result.Value, cancellation: ct);
+
+        await SendErrorsAsync(cancellation: ct);
     }
 }

@@ -1,13 +1,15 @@
 using circles.api.contracts.Goals.Queries;
+using circles.application.Abstractions.Messages;
+using circles.domain.Abstractions;
 using circles.infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Members.Queries.GetList;
 
-public sealed record CircleGoalsGetListQuery(Guid Id) : IRequest<List<CircleGoalsGetListResult>>;
+public sealed record CircleGoalsGetListQuery(Guid Id) : IQuery<List<CircleGoalsGetListResult>>;
 
-internal sealed record CircleGoalsGetListQueryHandler : IRequestHandler<CircleGoalsGetListQuery, List<CircleGoalsGetListResult>>
+internal sealed record CircleGoalsGetListQueryHandler : IQueryHandler<CircleGoalsGetListQuery, List<CircleGoalsGetListResult>>
 {
 
     private readonly CirclesDbContext _context;
@@ -18,7 +20,7 @@ internal sealed record CircleGoalsGetListQueryHandler : IRequestHandler<CircleGo
     }
 
 
-    public async Task<List<CircleGoalsGetListResult>> Handle(CircleGoalsGetListQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<CircleGoalsGetListResult>>> Handle(CircleGoalsGetListQuery request, CancellationToken cancellationToken)
     {
         var baseQuery = _context.CircleGoals
                 .Where(e => e.Circle.Id == request.Id)
