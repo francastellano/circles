@@ -1,4 +1,6 @@
 using circles.domain.Abstractions;
+using circles.domain.Activities;
+using circles.domain.ActivityMembers;
 using circles.domain.Circles;
 using circles.domain.Goals;
 using circles.domain.Members;
@@ -16,6 +18,8 @@ public class CirclesDbContext(DbContextOptions<CirclesDbContext> options, IMedia
     public DbSet<CircleSkill> CircleSkills { get; set; } = null!;
     public DbSet<CircleGoal> CircleGoals { get; set; } = null!;
     public DbSet<MemberSkill> MemberSkills { get; set; } = null!;
+    public DbSet<CircleActivity> CircleActivities { get; set; } = null!;
+    public DbSet<ActivityMember> ActivityMembers { get; set; } = null!;
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
