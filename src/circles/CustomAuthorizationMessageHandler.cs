@@ -14,7 +14,7 @@ public class CustomAuthorizationMessageHandler : AuthorizationMessageHandler
         if (authUrl is null)
             throw new InvalidOperationException("The configuration 'ApiSettings:BaseUri' value is null or empty");
 
-        var authScope = configuration.GetValue<string>("AzureAdB2C:TokenScope");
+        var authScope = configuration.GetValue<string>("TokenScope");
         if (authScope is null)
             throw new InvalidOperationException("The configuration 'AzureAdB2C:TokenScope' value is null or empty");
 
