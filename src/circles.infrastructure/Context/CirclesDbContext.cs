@@ -53,7 +53,6 @@ public class CirclesDbContext(DbContextOptions<CirclesDbContext> options, IMedia
         {
             await mediator.Publish(domainEvent, cancellationToken);
         }
-
         return result;
     }
 
