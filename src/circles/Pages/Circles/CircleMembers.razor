@@ -1,4 +1,8 @@
 @page "/circles/{CircleId}/members"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
 @using circles.api.contracts.Members.Queries
 @using circles.Pages.Members
 

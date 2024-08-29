@@ -1,4 +1,8 @@
 @page "/circles/{CircleId}/goals"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
 @inject IHttpClientFactory HttpClientFactory
 
 @using circles.api.contracts.Goals.Queries
