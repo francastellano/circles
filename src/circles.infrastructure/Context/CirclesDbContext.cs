@@ -13,13 +13,13 @@ using Microsoft.EntityFrameworkCore;
 namespace circles.infrastructure.Context;
 public class CirclesDbContext(DbContextOptions<CirclesDbContext> options, IMediator mediator) : DbContext(options)
 {
+    public DbSet<ActivityMember> ActivityMembers { get; set; } = null!;
     public DbSet<Circle> Circles { get; set; } = null!;
+    public DbSet<CircleActivity> CircleActivities { get; set; } = null!;
+    public DbSet<CircleGoal> CircleGoals { get; set; } = null!;
     public DbSet<CircleMember> CircleMembers { get; set; } = null!;
     public DbSet<CircleSkill> CircleSkills { get; set; } = null!;
-    public DbSet<CircleGoal> CircleGoals { get; set; } = null!;
     public DbSet<MemberSkill> MemberSkills { get; set; } = null!;
-    public DbSet<CircleActivity> CircleActivities { get; set; } = null!;
-    public DbSet<ActivityMember> ActivityMembers { get; set; } = null!;
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
