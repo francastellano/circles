@@ -1,5 +1,25 @@
 ﻿@page "/"
 
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject NavigationManager Navigation
+
+
 <PageTitle>Home</PageTitle>
 
 <h1>Circles4 v.0</h1>
+
+
+<AuthorizeView>
+    <NotAuthorized>
+        <a href="authentication/login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
+@code {
+    public void BeginLogOut()
+    {
+        Navigation.NavigateToLogout("authentication/logout");
+    }
+}

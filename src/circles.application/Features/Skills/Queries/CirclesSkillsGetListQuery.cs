@@ -30,7 +30,8 @@ internal sealed record CirclesSkillsGetListQueryHandler : IQueryHandler<CirclesS
         var query = baseQuery.Select(
             e => new CircleSkillGetListResult(
                 e.Id,
-                e.Denomination
+                e.Denomination,
+                e.Skill != null ? e.Skill.Id : (Guid?)null
             )
         );
 

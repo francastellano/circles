@@ -1,4 +1,10 @@
+@page "/circles/{CircleId}/skills/add/{MainSkill?}"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
 @inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager Navigation
 
 <h2>Add a new Skill</h2>
 
@@ -6,7 +12,10 @@
     <Message @ref="messageComponent" />
 </div>
 
+
 <EditForm Model="formParams" OnValidSubmit="AddSkill" FormName="add">
+
+    <input id="SkillId" type="hidden" @bind="formParams.SkillId" />
 
     <div class="form-floating mb-3">
         <input id="Email" type="text" placeholder="Denomination" @bind="formParams.Denomination" class="form-control"
@@ -26,6 +35,8 @@
     bool _loading;
     [Parameter, EditorRequired]
     public string CircleId { get; set; } = string.Empty;
+    [Parameter, EditorRequired]
+    public string? MainSkill { get; set; } = string.Empty;
     private Message messageComponent = new();
 
     private AddFormParams formParams { get; set; } = new();
@@ -40,7 +51,7 @@
 
         if (response.IsSuccessStatusCode)
         {
-            messageComponent.ShowMessage("Skill has been created", 3);
+            Navigation.NavigateTo($"circles/{CircleId}/skills");
         }
         else
         {
@@ -54,7 +65,14 @@
     public class AddFormParams
     {
         public string CircleId { get; set; } = string.Empty;
+        public string? SkillId { get; set; } = string.Empty;
         public string Denomination { get; set; } = string.Empty;
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        formParams.SkillId = MainSkill;
+    }
+
 
 }
