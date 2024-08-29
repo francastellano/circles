@@ -19,7 +19,7 @@ public class CircleMembersGetByIdEndPoint(IMediator mediator) : Endpoint<CircleM
 
         if (result.IsSuccess)
             await SendAsync(result.Value, cancellation: ct);
-
-        await SendErrorsAsync(cancellation: ct);
+        else
+            await SendErrorsAsync(cancellation: ct);
     }
 }
