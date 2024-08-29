@@ -1,8 +1,9 @@
 @page "/circles/{Id}"
 
 @using Microsoft.AspNetCore.Authorization
-@using circles.api.contracts.Circles.Queries.GetById
 @attribute [Authorize]
+
+@using circles.api.contracts.Circles.Queries.GetById
 
 @inject NavigationManager Navigation
 @inject IHttpClientFactory HttpClientFactory
@@ -20,11 +21,10 @@
     <div> @Result.Creator</div>
 </div>
 
-
     <button class="btn-lg" @onclick="GoMembers">Members</button>
     <button class="btn-lg" @onclick="GoSkills">Skills</button>
     <button class="btn-lg" @onclick="GoGoals">Goals</button>
-
+    <button class="btn-lg" @onclick="GoActivities">Activities</button>
 
 }
 
@@ -65,5 +65,10 @@
     public void GoGoals()
     {
         Navigation.NavigateTo($"circles/{Id}/goals");
+    }
+
+    public void GoActivities()
+    {
+        Navigation.NavigateTo($"circles/{Id}/activities");
     }
 }
