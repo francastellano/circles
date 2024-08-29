@@ -4,6 +4,7 @@
 @attribute [Authorize]
 
 @inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager Navigation
 
 @using circles.api.contracts.Skills.Queries
 
@@ -13,24 +14,44 @@
 
 <NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
 
+<button type="button" class="btn btn-lg btn-primary" @onclick="Navigate">Add Main Skill</button>
+<button type="button" class="btn btn-lg btn-primary" @onclick="ExpandCollapse">
+    @(_expand ? "Collapse" : "Expand")
+</button>
 
 @if (skills != null)
 {
-    <ul>
-    @foreach (var skill in skills)
+    @foreach (var skill in skills.Where(e => e.MainSkill == null))
+    {
+        <tr>
+    <td> @skill.Denomination</td>
+    <td>
+        <NavLink class="nav-link" @onclick="@(()=> NavigateChild(skill.Id.ToString()))"> Add Child Skill</NavLink>
+    </td>
+</tr>
+
+        @if (_expand)
         {
-            <li>@skill.Denomination</li>
+            @foreach (var skillChild in skills.Where(e => e.MainSkill == skill.Id))
+            {
+                <tr>
+    <td></td>
+    <td>@skillChild.Denomination</td>
+</tr>
+            }
+
         }
-    </ul>
+    }
+
 }
 
-<CircleSkillForm CircleId="@CircleId" />
+
 
 @code {
     bool _loading;
+    bool _expand;
     [Parameter, EditorRequired]
     public string CircleId { get; set; } = string.Empty;
-
     List<CircleSkillGetListResult>? skills;
 
     protected override async Task OnInitializedAsync()
@@ -46,5 +67,25 @@
         skills = await
         httpClient.GetFromJsonAsync<List<CircleSkillGetListResult>>($"api/v1/circles/{CircleId}/skills?circleId={CircleId}");
         _loading = false;
+    }
+
+    public async Task ComputeItems()
+    {
+
+    }
+
+    public void Navigate()
+    {
+        Navigation.NavigateTo($"circles/{CircleId}/skills/add");
+    }
+
+    public void NavigateChild(string MainId)
+    {
+        Navigation.NavigateTo($"circles/{CircleId}/skills/add/{MainId}");
+    }
+
+    public void ExpandCollapse()
+    {
+        _expand = !_expand;
     }
 }

@@ -1,9 +1,12 @@
-﻿@inject Blazored.LocalStorage.ILocalStorageService localStorage
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager Navigation
+
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">circles</a>
+        <a class="navbar-brand" href="">Circles4</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -48,9 +51,13 @@
                 Goals
             </NavLink>
         </div>
+        <hr>
 
-
-
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" @onclick="BeginLogOut">
+                Log out
+            </NavLink>
+        </div>
     </nav>
 </div>
 
@@ -79,5 +86,9 @@
         await LoadFromLocalStorage();
         if (circleId != null)
             Navigation.NavigateTo(uri);
+    }
+    public void BeginLogOut()
+    {
+        Navigation.NavigateToLogout("authentication/logout");
     }
 }

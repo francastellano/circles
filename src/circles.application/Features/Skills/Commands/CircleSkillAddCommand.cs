@@ -4,7 +4,6 @@ using circles.application.Exceptions;
 using circles.domain.Abstractions;
 using circles.domain.Skills;
 using circles.infrastructure.Context;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Skills.Commands;
@@ -20,7 +19,11 @@ internal sealed record CircleSkillAddCommandHandler(CirclesDbContext DbContext) 
         if (circle is null)
             throw new ItemCantBeFoundException("Circle");
 
-        var item = CircleSkill.Create(circle, request.Params.Denomination);
+        CircleSkill? mainSkill = null;
+        if (request.Params.SkillId != null)
+            mainSkill = await DbContext.CircleSkills.FirstOrDefaultAsync(e => e.Id == request.Params.SkillId, cancellationToken);
+
+        var item = CircleSkill.Create(circle, request.Params.Denomination, mainSkill);
 
         await DbContext.AddAsync(item, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
