@@ -26,7 +26,6 @@ builder.Services.AddCors(options =>
     options.AddPolicy("PolicyOne", policy =>
     {
         policy.WithOrigins(uriAppBase)
-            .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
