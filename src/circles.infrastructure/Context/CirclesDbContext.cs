@@ -35,6 +35,16 @@ public class CirclesDbContext(DbContextOptions<CirclesDbContext> options, IMedia
             var data = entry.Entity.GetDomainEvents();
             domainEvents.AddRange(data);
             entry.Entity.ClearDomainEvents();
+
+            if (entry.State == EntityState.Added)
+            {
+                entry.Entity.CreatedAtUtc = DateTime.UtcNow;
+                entry.Entity.UpdatedAtUtc = DateTime.UtcNow;
+            }
+            else if (entry.State == EntityState.Modified)
+            {
+                entry.Entity.UpdatedAtUtc = DateTime.UtcNow;
+            }
         }
 
         var result = await base.SaveChangesAsync(cancellationToken);
