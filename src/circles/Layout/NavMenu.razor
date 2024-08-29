@@ -23,14 +23,21 @@
                 Circles
             </NavLink>
         </div>
+        <hr>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/members"))">
-
                 Members
             </NavLink>
         </div>
 
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/activities"))">
+                Activities
+            </NavLink>
+        </div>
+
+        <hr>
         <div class="nav-item px-3">
             <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/skills"))">
                 Skills

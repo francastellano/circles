@@ -4,7 +4,6 @@ using circles.application.Exceptions;
 using circles.domain.Abstractions;
 using circles.domain.Goals;
 using circles.infrastructure.Context;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Goals.Commands;

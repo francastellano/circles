@@ -1,0 +1,68 @@
+@page "/circles/{CircleId}/activities"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+@inject IHttpClientFactory HttpClientFactory
+
+@using circles.api.contracts.Activities.Queries
+
+<h2>Activities</h2>
+
+<EditForm Model="formQuery" OnValidSubmit="GetItems" FormName="query">
+
+    <div class="form-floating mb-3">
+        <input id="Denomination" type="text" placeholder="Denomination" @bind="formQuery.Denomination"
+            class="form-control" autocomplete="off">
+
+        <label for="Denomination" class="form-label">Denomination</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <button type="submit" class="w-100 btn btn-lg btn-primary" disabled="@_loading">Consultar</button>
+    </div>
+</EditForm>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th colspan="2">Denomination</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var activity in results)
+        {
+            <tr>
+                <td>@activity.Denomination</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+    bool _loading;
+    [Parameter, EditorRequired]
+    public string CircleId { get; set; } = string.Empty;
+
+    private List<ActivityGetListResults> results = new();
+
+    FormQuery formQuery = new();
+
+    public async Task GetItems()
+    {
+        _loading = true;
+        var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
+
+        results = await
+        httpClient.GetFromJsonAsync<List<ActivityGetListResults>>($"api/v1/circles/{CircleId}/activities?circleId={CircleId}");
+        _loading = false;
+    }
+
+    class FormQuery
+    {
+        public string Denomination { get; set; } = string.Empty;
+    }
+
+}

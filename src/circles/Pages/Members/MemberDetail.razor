@@ -1,4 +1,8 @@
 @page "/members/{MemberId}"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
 @inject IHttpClientFactory HttpClientFactory
 
 @using circles.api.contracts.Members.Queries

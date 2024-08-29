@@ -1,4 +1,8 @@
 @page "/circles/{CircleId}/skills"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
 @inject IHttpClientFactory HttpClientFactory
 
 @using circles.api.contracts.Skills.Queries
@@ -12,12 +16,12 @@
 
 @if (skills != null)
 {
-        <ul>
-        @foreach (var skill in skills)
+    <ul>
+    @foreach (var skill in skills)
         {
-                    <li>@skill.Denomination</li>
+            <li>@skill.Denomination</li>
         }
-        </ul>
+    </ul>
 }
 
 <CircleSkillForm CircleId="@CircleId" />
