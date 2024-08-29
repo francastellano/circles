@@ -23,7 +23,7 @@ builder.Services.AddTransient<CustomAuthorizationMessageHandler>();
 builder.Services.AddScoped(sp =>
     sp.GetRequiredService<IHttpClientFactory>().CreateClient(CirclesConfiguration.DefaultHttpClient));
 
-var tokenScope = builder.Configuration.GetValue<string>("AzureAdB2C:TokenScope");
+var tokenScope = builder.Configuration.GetValue<string>("TokenScope");
 if (tokenScope is null)
     throw new InvalidOperationException("The configuration 'ApiSettings:tokenScope' value is null or empty");
 
