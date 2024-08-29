@@ -13,13 +13,13 @@ using Microsoft.EntityFrameworkCore;
 namespace circles.infrastructure.Context;
 public class CirclesDbContext(DbContextOptions<CirclesDbContext> options, IMediator mediator) : DbContext(options)
 {
+    public DbSet<ActivityMember> ActivityMembers { get; set; } = null!;
     public DbSet<Circle> Circles { get; set; } = null!;
+    public DbSet<CircleActivity> CircleActivities { get; set; } = null!;
+    public DbSet<CircleGoal> CircleGoals { get; set; } = null!;
     public DbSet<CircleMember> CircleMembers { get; set; } = null!;
     public DbSet<CircleSkill> CircleSkills { get; set; } = null!;
-    public DbSet<CircleGoal> CircleGoals { get; set; } = null!;
     public DbSet<MemberSkill> MemberSkills { get; set; } = null!;
-    public DbSet<CircleActivity> CircleActivities { get; set; } = null!;
-    public DbSet<ActivityMember> ActivityMembers { get; set; } = null!;
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
@@ -35,6 +35,16 @@ public class CirclesDbContext(DbContextOptions<CirclesDbContext> options, IMedia
             var data = entry.Entity.GetDomainEvents();
             domainEvents.AddRange(data);
             entry.Entity.ClearDomainEvents();
+
+            if (entry.State == EntityState.Added)
+            {
+                entry.Entity.CreatedAtUtc = DateTime.UtcNow;
+                entry.Entity.UpdatedAtUtc = DateTime.UtcNow;
+            }
+            else if (entry.State == EntityState.Modified)
+            {
+                entry.Entity.UpdatedAtUtc = DateTime.UtcNow;
+            }
         }
 
         var result = await base.SaveChangesAsync(cancellationToken);
@@ -43,7 +53,6 @@ public class CirclesDbContext(DbContextOptions<CirclesDbContext> options, IMedia
         {
             await mediator.Publish(domainEvent, cancellationToken);
         }
-
         return result;
     }
 
