@@ -1,24 +1,28 @@
 ﻿@inherits LayoutComponentBase
 <div class="page">
-    <div class="sidebar">
-        <AuthorizeView>
-            <Authorized>
+    <AuthorizeView>
+        <Authorized>
+            <div class="sidebar">
                 <NavMenu />
-            </Authorized>
-        </AuthorizeView>
+            </div>
 
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <AuthorizeView>
-                <Authorized>
+            <main>
+                <div class="top-row px-4">
                     @context.User.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value
-                </Authorized>
-            </AuthorizeView>
-        </div>
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+
+                </div>
+                <article class="content px-4">
+                    @Body
+                </article>
+            </main>
+
+        </Authorized>
+        <NotAuthorized>
+            <article class="content px-4">
+                @Body
+            </article>
+
+        </NotAuthorized>
+
+    </AuthorizeView>
 </div>
