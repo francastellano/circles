@@ -20,7 +20,7 @@
     @foreach (var member in members)
         {
             <li>
-                <NavLink href="@($"members/{member.Id}")">
+                <NavLink class="nav-link" href="@($"members/{member.Id}")">
 
                     @member.Email
                 </NavLink>

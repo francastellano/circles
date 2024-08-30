@@ -23,7 +23,7 @@ internal sealed record CircleSkillAddCommandHandler(CirclesDbContext DbContext) 
         if (request.Params.SkillId != null)
             mainSkill = await DbContext.CircleSkills.FirstOrDefaultAsync(e => e.Id == request.Params.SkillId, cancellationToken);
 
-        var item = CircleSkill.Create(circle, request.Params.Denomination, mainSkill);
+        var item = CircleSkill.Create(circle, request.Params.Denomination, mainSkill, request.Params.Description);
 
         await DbContext.AddAsync(item, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);

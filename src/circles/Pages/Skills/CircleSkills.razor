@@ -9,7 +9,7 @@
 @using circles.api.contracts.Skills.Queries
 
 <h2>Skills</h2>
-
+ 
 <LoadingTag Loading="@_loading" />
 
 <NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
@@ -21,12 +21,17 @@
 
 @if (skills != null)
 {
+    <ol>
     @foreach (var skill in skills.Where(e => e.MainSkill == null))
     {
         <tr>
-    <td> @skill.Denomination</td>
     <td>
-        <NavLink class="nav-link" @onclick="@(()=> NavigateChild(skill.Id.ToString()))"> Add Child Skill</NavLink>
+        <li><NavLink class="nav-link" @onclick="@(()=> NavigateChild(skill.Id.ToString()))"> @skill.Denomination</NavLink>
+        </li>
+        </td>
+        <td>@skill.Description</td>
+    <td>
+
     </td>
 </tr>
 
@@ -42,14 +47,14 @@
 
         }
     }
-
+</ol>
 }
 
 
 
 @code {
     bool _loading;
-    bool _expand;
+    bool _expand  = true;
     [Parameter, EditorRequired]
     public string CircleId { get; set; } = string.Empty;
     List<CircleSkillGetListResult>? skills;
