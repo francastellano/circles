@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using circles.domain.Abstractions;
 using circles.domain.Activities.Events;
 using circles.domain.Circles;
