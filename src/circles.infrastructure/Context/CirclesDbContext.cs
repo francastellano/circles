@@ -1,5 +1,6 @@
 using circles.domain.Abstractions;
 using circles.domain.Activities;
+using circles.domain.ActivityLocations;
 using circles.domain.ActivityMembers;
 using circles.domain.Circles;
 using circles.domain.Goals;
@@ -17,6 +18,7 @@ public class CirclesDbContext(DbContextOptions<CirclesDbContext> options, IMedia
     public DbSet<Circle> Circles { get; set; } = null!;
     public DbSet<CircleActivity> CircleActivities { get; set; } = null!;
     public DbSet<CircleGoal> CircleGoals { get; set; } = null!;
+    public DbSet<CircleLocation> CircleLocations { get; set; } = null!;
     public DbSet<CircleMember> CircleMembers { get; set; } = null!;
     public DbSet<CircleSkill> CircleSkills { get; set; } = null!;
     public DbSet<MemberSkill> MemberSkills { get; set; } = null!;
