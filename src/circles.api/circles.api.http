@@ -1,9 +1,9 @@
 @circles.api_HostAddress = http://localhost:5130
 #@circles.api_HostAddress = https://api.circles4.com
 
-@circles.api_Token = eyJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhYjQ3MDRmMy0xZjJhLTRkMDQtODU2OS01ODQ0N2NiODg4NGQiLCJpc3MiOiJodHRwczovL2NpcmNsZXMwMy5iMmNsb2dpbi5jb20vZmRlYWExZmQtZGNkYS00Mzk3LWJiNmMtZWZlZDg4ODg0NTQwL3YyLjAvIiwiZXhwIjoxNzI0OTEwNDA3LCJuYmYiOjE3MjQ5MDY4MDcsInN1YiI6IjFhMzRmOTVhLWFhOGItNGI2Zi1iNDMyLTNlYzIxNTFhMTliNyIsImdpdmVuX25hbWUiOiJQYWNvIiwiZW1haWxzIjpbImZyYW4uY2FzdGVsbGFub0BnbWFpbC5jb20iXSwidGZwIjoiQjJDXzFfU2luZzAxIiwibm9uY2UiOiJmMmIzNGJkZi1hZTQwLTRkNWMtOTIyYS01MjI5ODBhZTFhMDIiLCJzY3AiOiJVc2VyIiwiYXpwIjoiZGZjNTRhNTMtN2JkNC00M2RlLWJiYWItMzkwZjdiZjMzMDVlIiwidmVyIjoiMS4wIiwiaWF0IjoxNzI0OTA2ODA3fQ.WAXyZ2m1GKcELxQY2KD5tZyF9ycWxBYC4UUF0Y4mqCVj4xodTA1OUuNrw46bezfLlRq3QuS7aBy42rmCnRXHgRXdQ1444Z-T_RGvx2sNzJvQPO8sTXiZFDSI6CkrUyKa_HVan-MNpSb1Y6UKhbc_grlBxWV5WhODOzp3B_ahdwknQk5pyO51uHZRvETxvz-Koj-HkLVtGSBi1ygo_Ndp-wgdgqPzdZAjXlLshatrn18QthDqQJfCfMbwQ85K2MQH4U16lTdwnVxmI0lSXn0F_bHeT4VgjRhBelmLKsAQvP4LdahSGrYik9H0Bht6eoXXPfL5dQUEhmBYwqO1Dgu0wg
+@circles.api_Token = eyJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhYjQ3MDRmMy0xZjJhLTRkMDQtODU2OS01ODQ0N2NiODg4NGQiLCJpc3MiOiJodHRwczovL2NpcmNsZXMwMy5iMmNsb2dpbi5jb20vZmRlYWExZmQtZGNkYS00Mzk3LWJiNmMtZWZlZDg4ODg0NTQwL3YyLjAvIiwiZXhwIjoxNzI1MTc5NDQ4LCJuYmYiOjE3MjUxNzU4NDgsInN1YiI6IjFhMzRmOTVhLWFhOGItNGI2Zi1iNDMyLTNlYzIxNTFhMTliNyIsImdpdmVuX25hbWUiOiJQYWNvIiwiZW1haWxzIjpbImZyYW4uY2FzdGVsbGFub0BnbWFpbC5jb20iXSwidGZwIjoiQjJDXzFfU2luZzAxIiwibm9uY2UiOiJlYTViM2VlNC1mM2ZlLTRkMmMtYWY4Ny0wYjI0ZWNhN2U3MmIiLCJzY3AiOiJVc2VyIiwiYXpwIjoiZGZjNTRhNTMtN2JkNC00M2RlLWJiYWItMzkwZjdiZjMzMDVlIiwidmVyIjoiMS4wIiwiaWF0IjoxNzI1MTc1ODQ4fQ.HGk3BsIWsuCAPqwQOit4bLFY_ingAnUjrzykNRgVfQd3ah5WjDzrZpNVJNUsjET6FlzDldPGv-Q0bNsq9_ZQAAGP3CyW4WzAiXpee3JahtKwDFQ9kTdcsNfC4u3l5k9BqcO8B87zN2ab7yoDSuiJ-9qyH1FFGnG3I4fYzOwxnBcdogaGQUlxuC_WilwnDfyjnk7U1RJi8dYOkfMllj1RSvCBsVGzrjLM3oWwPIO4Ra8UqrKBz1F8rdCLHgw7cbfZaEgAUBSjkaeCo_OBe9cR52uYZaxr6MIP2MbnycBm-cx-JgdIItFv7RlRhZjQUg66BiRW3aWalGHkf_GetdLyZQ
 
-@circleId = 45ac0964-b21e-447b-ac73-14fc613ba106
+@circleId = 96ddc0ec-211c-4098-8d69-ae3b91af0f25
 ### Get circles
 
 GET {{circles.api_HostAddress}}/api/v1/circles?denomination=
@@ -72,3 +72,26 @@ Authorization: Bearer {{circles.api_Token}}
 GET {{circles.api_HostAddress}}/api/v1/circles/{Id}/activities?circleId={{circleId}}
 Accept: application/json
 Authorization: Bearer {{circles.api_Token}}
+
+
+### Query Locations
+
+GET {{circles.api_HostAddress}}/api/v1/circles/{Id}/locations?circleId={{circleId}}
+Accept: application/json
+Authorization: Bearer {{circles.api_Token}}
+
+
+### Add Location
+
+POST {{circles.api_HostAddress}}/api/v1/locations
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{circles.api_Token}}
+
+{
+  "circleId": "{{circleId}}",
+  "denomination": "Pantano de San Juan",
+  "latitude": -4.32299,
+  "longitude":  40.37362
+}
+

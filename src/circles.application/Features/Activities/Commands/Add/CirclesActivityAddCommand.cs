@@ -22,8 +22,12 @@ internal sealed record CirclesActivityAddCommandHandler : ICommandHandler<Circle
         var circle = await _dbContext.Circles.FirstOrDefaultAsync(e => e.Id == request.Params.CircleId, cancellationToken: cancellationToken);
         if (circle is null)
             return Result.Failure(new Error("100", "Circle can't be found"));
+            
+        var location = await _dbContext.CircleLocations.FirstOrDefaultAsync(e=> e.Id == request.Params.LocationId, cancellationToken);
+        if (location is null)
+            return Result.Failure(new Error("100", "Location can't be found"));
 
-        var item = CircleActivity.Create(circle, request.Params.Denomination);
+        var item = CircleActivity.Create(circle, location, request.Params.Denomination);
 
         await _dbContext.AddAsync(item, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
