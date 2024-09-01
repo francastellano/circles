@@ -2,7 +2,6 @@ using circles.api.contracts.Skills.Queries;
 using circles.application.Abstractions.Messages;
 using circles.domain.Abstractions;
 using circles.infrastructure.Context;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Skills.Queries;
@@ -31,7 +30,8 @@ internal sealed record CirclesSkillsGetListQueryHandler : IQueryHandler<CirclesS
             e => new CircleSkillGetListResult(
                 e.Id,
                 e.Denomination,
-                e.Skill != null ? e.Skill.Id : (Guid?)null
+                e.Skill != null ? e.Skill.Id : null,
+                e.Description
             )
         );
 

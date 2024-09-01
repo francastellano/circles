@@ -18,10 +18,17 @@
     <input id="SkillId" type="hidden" @bind="formParams.SkillId" />
 
     <div class="form-floating mb-3">
-        <input id="Email" type="text" placeholder="Denomination" @bind="formParams.Denomination" class="form-control"
-            autocomplete="off">
+        <input id="Denomination" type="text" placeholder="Denomination" @bind="formParams.Denomination"
+            class="form-control" autocomplete="off">
         <label for="Denomination" class="form-label">Denomination</label>
     </div>
+
+    <div class="form-floating mb-5">
+        <input id="Description" type="text" placeholder="Description" @bind="formParams.Description"
+            class="form-control" autocomplete="off">
+        <label for="Description" class="form-label">Description</label>
+    </div>
+
 
     <div class="form-floating mb-3">
         <button type="submit" class="btn btn-lg btn-primary" disabled="@_loading">Add</button>
@@ -67,9 +74,10 @@
         public string CircleId { get; set; } = string.Empty;
         public string? SkillId { get; set; } = string.Empty;
         public string Denomination { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         formParams.SkillId = MainSkill;
     }

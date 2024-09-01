@@ -10,6 +10,19 @@ h1:focus {
     outline: none;
 }
 
+.nav-link{
+    color: grey;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    color: green;
+    text-decoration: underline; /* Underline on hover */
+}
+
+
+
 .notification {
     position: fixed;
     bottom: 1rem; /* Equivalent to bottom-4 in Tailwind */
