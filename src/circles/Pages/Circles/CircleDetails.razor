@@ -21,14 +21,12 @@
     <div> @Result.Creator</div>
 </div>
 
-    <button class="btn-lg" @onclick="GoMembers">Members</button>
-    <button class="btn-lg" @onclick="GoActivities">Activities</button>
-    <button class="btn-lg" @onclick="GoSkills">Skills</button>
-    <button class="btn-lg" @onclick="GoGoals">Goals</button>
+    <button class="btn-lg" @onclick="@(()=> GoDetails("members"))">Members</button>
+    <button class="btn-lg" @onclick="@(()=> GoDetails("activities"))">Activities</button>
+    <button class="btn-lg" @onclick="@(()=> GoDetails("skills"))">Skills</button>
+    <button class="btn-lg" @onclick="@(()=> GoDetails("goals"))">Goals</button>
     <button class="btn-lg" @onclick="@(()=> GoDetails("locations"))">Locations</button>
-
 }
-
 
 @code {
 
@@ -51,32 +49,8 @@
         Result = await
         httpClient.GetFromJsonAsync<CircleGetByIdResult>($"api/v1/circles/{Id}");
     }
-
-    public void GoMembers()
-    {
-        Navigation.NavigateTo($"circles/{Id}/members");
-    }
-
-
-    public void GoSkills()
-    {
-        Navigation.NavigateTo($"circles/{Id}/skills");
-    }
-
-    public void GoGoals()
-    {
-        Navigation.NavigateTo($"circles/{Id}/goals");
-    }
-
-    public void GoActivities()
-    {
-        Navigation.NavigateTo($"circles/{Id}/activities");
-    }
-
     public void GoDetails(string address)
     {
-        Navigation.NavigateTo($"circles/{Id}/locations");
+        Navigation.NavigateTo($"circles/{Id}/{address}");
     }
-
-
 }
