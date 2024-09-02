@@ -1,5 +1,5 @@
 
-namespace circles.application.Exception;
+namespace circles.application.Exceptions;
 
 public class UserCantBeFoundException : System.Exception
 {
