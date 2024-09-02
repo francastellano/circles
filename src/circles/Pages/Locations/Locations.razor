@@ -7,10 +7,30 @@
 @inject NavigationManager Navigation
 
 @using circles.api.contracts.Skills.Queries
+@using global::circles
+@using global::circles.api.contracts.ActivityLocation.Queries
 
 <h2>Locations</h2>
 
 <LoadingTag Loading="@_loading" />
+
+<NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
+
+<button class="btn" @onclick="GetItems">Refresh</button>
+
+@if (locations != null)
+{
+    <ul>
+    @foreach (var location in locations)
+        {
+            <li>@location.Denomination</li>
+        }
+    </ul>
+}
+
+
+
+
 
 
 @code {
@@ -18,4 +38,21 @@
 
     [Parameter]
     public string CircleId { get; set; }
+
+    List<CircleLocationGetListResult>? locations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetItems();
+    }
+
+    public async Task GetItems()
+    {
+        _loading = true;
+        var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
+
+        locations = await
+        httpClient.GetFromJsonAsync<List<CircleLocationGetListResult>>($"api/v1/circles/{CircleId}/locations?circleId={CircleId}");
+        _loading = false;
+    }
 }

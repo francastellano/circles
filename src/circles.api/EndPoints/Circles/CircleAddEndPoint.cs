@@ -1,5 +1,5 @@
 using circles.api.contracts.Circles.Commands.Add;
-using circles.application.Exception;
+using circles.application.Exceptions;
 using circles.application.Features.Circles.Commands.Add;
 using FastEndpoints;
 using MediatR;
