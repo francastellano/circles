@@ -1,0 +1,21 @@
+@page "/circles/{CircleId}/locations"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager Navigation
+
+@using circles.api.contracts.Skills.Queries
+
+<h2>Locations</h2>
+
+<LoadingTag Loading="@_loading" />
+
+
+@code {
+    bool _loading;
+
+    [Parameter]
+    public string CircleId { get; set; }
+}
