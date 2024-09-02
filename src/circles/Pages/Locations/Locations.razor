@@ -12,11 +12,13 @@
 
 <h2>Locations</h2>
 
-<LoadingTag Loading="@_loading" />
-
 <NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
 
 <button class="btn" @onclick="GetItems">Refresh</button>
+<button class="btn" @onclick="Clear">Clear</button>
+<button class="btn" @onclick="NavigateAdd">Add</button>
+
+<LoadingTag Loading="@_loading" />
 
 @if (locations != null)
 {
@@ -37,13 +39,17 @@
     bool _loading;
 
     [Parameter]
-    public string CircleId { get; set; }
+    public string CircleId { get; set; }= string.Empty;
 
     List<CircleLocationGetListResult>? locations;
 
     protected override async Task OnInitializedAsync()
     {
         await GetItems();
+    }
+
+    public void Clear(){
+        locations = null;
     }
 
     public async Task GetItems()
@@ -54,5 +60,9 @@
         locations = await
         httpClient.GetFromJsonAsync<List<CircleLocationGetListResult>>($"api/v1/circles/{CircleId}/locations?circleId={CircleId}");
         _loading = false;
+    }
+
+    public void NavigateAdd(){
+        Navigation.NavigateTo($"circles/{CircleId}/locations/add");
     }
 }
