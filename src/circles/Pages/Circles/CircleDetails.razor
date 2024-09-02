@@ -22,9 +22,10 @@
 </div>
 
     <button class="btn-lg" @onclick="GoMembers">Members</button>
+    <button class="btn-lg" @onclick="GoActivities">Activities</button>
     <button class="btn-lg" @onclick="GoSkills">Skills</button>
     <button class="btn-lg" @onclick="GoGoals">Goals</button>
-    <button class="btn-lg" @onclick="GoActivities">Activities</button>
+    <button class="btn-lg" @onclick="@(()=> GoDetails("locations"))">Locations</button>
 
 }
 
@@ -71,4 +72,11 @@
     {
         Navigation.NavigateTo($"circles/{Id}/activities");
     }
+
+    public void GoDetails(string address)
+    {
+        Navigation.NavigateTo($"circles/{Id}/locations");
+    }
+
+
 }
