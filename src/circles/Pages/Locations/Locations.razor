@@ -20,18 +20,34 @@
 
 <LoadingTag Loading="@_loading" />
 
+<table class="table">
+    <thead>
+    <tr>
+        <td>
+ Denomination</td>
+ <td>Latitude</td>
+ <td>Longitude</td>
+ </tr>
+ </thead>
+
 @if (locations != null)
 {
-    <ul>
+    
     @foreach (var location in locations)
+    
         {
-            <li>@location.Denomination</li>
+            <tr>
+            <td>@location.Denomination</td>
+            <td>@location.Longitude</td>
+            <td>@location.Latitude</td>
+            
+            </tr>
         }
-    </ul>
+    
 }
 
 
-
+</table>
 
 
 
