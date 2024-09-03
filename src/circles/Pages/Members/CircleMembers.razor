@@ -7,6 +7,8 @@
 
 @using circles.api.contracts.Members.Queries
 @using circles.Pages.Members
+@using global::circles.api.contracts.Members.Queries
+@using circles.api.contracts.Abstractions.Paginations
 
 @inject IHttpClientFactory HttpClientFactory
 
@@ -18,67 +20,105 @@
 <button class="btn" @onclick="Clear">Clear</button>
 <button class="btn" @onclick="NavigateAdd">Add</button>
 
-<LoadingTag Loading="@_loading" />
+        <LoadingTag Loading="@_loading" />
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <td>Email</td>
-            <td>Name</td>
-        </tr>
-    </thead>
-    <tbody>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Email</td>
+                    <td>Name</td>
+                </tr>
+            </thead>
+            <tbody>
 
-        @if (members != null)
-        {
-            @foreach (var member in members)
-            {
+    @if (members != null)
+    {
+    @foreach (var member in members.Items)
+    {
                 <tr>
                     <td>
                         <NavLink class="nav-link" href="@($"members/{member.Id}")">
-                            @member.Email
+                @member.Email
                         </NavLink>
                     </td>
                     <td>
-                        @member.Name
+            @member.Name
                     </td>
                 </tr>
-            }
-        }
-    </tbody>
-</table>
-
-@code {
-
-    bool _loading;
-    [Parameter, EditorRequired]
-    public string CircleId { get; set; } = string.Empty;
-
-    List<CircleListGetMemberResult>? members;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await GetItems();
     }
+    }
+            </tbody>
+        </table>
 
-    public async Task GetItems()
-    {
+        <div>
+            Page: @PageNumber
+            <button class="btn" @onclick="First"> @("<<") </button>
+<button class="btn" @onclick="Previous">@("<")</button>
+<button class="btn" @onclick="Next">@(">")</button>
+<button class="btn" @onclick="Last">@(">>")</button>
+        </div>
+
+    @code {
+
+        bool _loading;
+        [Parameter, EditorRequired]
+        public string CircleId { get; set; } = string.Empty;
+
+        int PageNumber = 1;
+
+        PagingResult<CircleListGetMemberResult>? members;
+
+        protected override async Task OnInitializedAsync()
+        {
+        await GetItems();
+        }
+
+        public async Task GetItems()
+        {
         _loading = true;
         var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
-
         members = await
-        httpClient.GetFromJsonAsync<List<CircleListGetMemberResult>>($"api/v1/circles/{CircleId}/members");
+        httpClient.GetFromJsonAsync<PagingResult<CircleListGetMemberResult>>($"api/v1/circles/{CircleId}/members?CircleId={CircleId}&PageNumber={PageNumber}");
         _loading = false;
-    }
+        }
 
-    public void Clear()
-    {
+        public void Clear()
+        {
         members = null;
-    }
-    public void NavigateAdd()
-    {
+        PageNumber = 1;
+        }
+        public void NavigateAdd()
+        {
         Navigation.NavigateTo($"circles/{CircleId}/members/add");
-    }
+        }
 
-}
+        public async Task Next()
+        {
+        PageNumber++;
+        await GetItems();
+        }
+
+        public async Task Previous()
+        {
+
+        if (PageNumber <= 0)
+        return;
+        PageNumber--;
+        await GetItems();
+        }
+
+
+        public async Task First()
+        {
+        PageNumber = 1;
+        await GetItems();
+        }
+
+        public async Task Last()
+        {
+        PageNumber = members.LastPage;
+        await GetItems();
+        }
+
+    }

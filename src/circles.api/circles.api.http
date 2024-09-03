@@ -108,3 +108,10 @@ Authorization: Bearer {{circles.api_Token}}
   "email": "fran.castellano@gmail.com",
   "name": "Francisco Castellano"
 }
+
+
+### Query Members
+
+GET {{circles.api_HostAddress}}/api/v1/circles/{Id}/members?circleId={{circleId}}&PageNumber=1
+Accept: application/json
+Authorization: Bearer {{circles.api_Token}}
