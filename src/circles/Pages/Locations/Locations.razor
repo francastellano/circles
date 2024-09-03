@@ -5,6 +5,7 @@
 
 @inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
 
 @using circles.api.contracts.Skills.Queries
 @using global::circles
@@ -23,31 +24,35 @@
 <table class="table">
     <thead>
     <tr>
-        <td>
- Denomination</td>
- <td>Latitude</td>
- <td>Longitude</td>
- </tr>
- </thead>
+        <td>Denomination</td>
+        <td>Latitude</td>
+        <td>Longitude</td>
+        <td>Action</td>
+    </tr>
+    </thead>
 
 @if (locations != null)
-{
-    
-    @foreach (var location in locations)
-    
+    {
+        <tbody>
+        @foreach (var location in locations)
         {
-            <tr>
-            <td>@location.Denomination</td>
-            <td>@location.Longitude</td>
-            <td>@location.Latitude</td>
-            
-            </tr>
+                <tr>
+                    <td>@location.Denomination</td>
+                    <td>@location.Latitude</td>
+                    <td>@location.Longitude</td>
+                    <td>
+                        <button class="btn" @onclick="() => ShowOnMap(location.Latitude, location.Longitude)">
+                            Show on Map
+                        </button>
+                    </td>
+                </tr>
         }
-    
-}
-
+        </tbody>
+    }
 
 </table>
+
+<div id="map" style="height: 500px; width: 100%;"></div>
 
 
 
@@ -55,16 +60,19 @@
     bool _loading;
 
     [Parameter]
-    public string CircleId { get; set; }= string.Empty;
+    public string CircleId { get; set; } = string.Empty;
 
     List<CircleLocationGetListResult>? locations;
 
     protected override async Task OnInitializedAsync()
     {
+        await JSRuntime.InvokeVoidAsync("mapInterop.loadGoogleMaps", "AIzaSyC6AB0gYGTpJJBgpMzXmaLG-Yj_ex_5rXc");
+        await JSRuntime.InvokeVoidAsync("mapInterop.initMap");
         await GetItems();
     }
 
-    public void Clear(){
+    public void Clear()
+    {
         locations = null;
     }
 
@@ -73,12 +81,17 @@
         _loading = true;
         var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
 
-        locations = await
-        httpClient.GetFromJsonAsync<List<CircleLocationGetListResult>>($"api/v1/circles/{CircleId}/locations?circleId={CircleId}");
+        locations = await httpClient.GetFromJsonAsync<List<CircleLocationGetListResult>>($"api/v1/circles/{CircleId}/locations?circleId={CircleId}");
         _loading = false;
     }
 
-    public void NavigateAdd(){
+    public void NavigateAdd()
+    {
         Navigation.NavigateTo($"circles/{CircleId}/locations/add");
+    }
+
+    public async Task ShowOnMap(double? latitude, double? longitude)
+    {
+        await JSRuntime.InvokeVoidAsync("mapInterop.updateMap", latitude, longitude);
     }
 }
