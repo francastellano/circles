@@ -1,5 +1,5 @@
+using circles.api.contracts.Abstractions.Paginations;
 using circles.api.contracts.Members.Queries;
-using circles.application.Abstractions.Pagination;
 using circles.application.Features.Members.Queries.GetList;
 using FastEndpoints;
 using MediatR;

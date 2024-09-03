@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using circles.api.contracts.Abstractions.Paginations;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace circles.application.Abstractions.Pagination;
