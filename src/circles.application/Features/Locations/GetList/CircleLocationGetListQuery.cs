@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Locations.GetList;
 
-public sealed record CircleLocationGetListQuery (Guid CircleId) : IQuery<List<CircleLocationGetListResult>>;
+public sealed record CircleLocationGetListQuery(Guid CircleId) : IQuery<List<CircleLocationGetListResult>>;
 
 internal sealed record CircleLocationGetListQueryHandler : IQueryHandler<CircleLocationGetListQuery, List<CircleLocationGetListResult>>
 {
@@ -20,7 +20,7 @@ internal sealed record CircleLocationGetListQueryHandler : IQueryHandler<CircleL
     {
         var result = await _circleDbContext.CircleLocations
                 .Where(e => e.Circle.Id == request.CircleId)
-                .Select(e => new CircleLocationGetListResult( e.Denomination))
+                .Select(e => new CircleLocationGetListResult(e.Denomination, e.Longitude, e.Latitude))
                 .ToListAsync(cancellationToken);
 
         return result;
