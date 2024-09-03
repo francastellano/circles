@@ -3,7 +3,7 @@ html, body {
 }
 
 h1 {
-    color: green;
+    color: #333300;
 }
 
 h1:focus {
@@ -17,7 +17,7 @@ h1:focus {
 }
 
 .nav-link:hover {
-    color: green;
+    color: #333300;
     text-decoration: underline; /* Underline on hover */
 }
 
@@ -101,6 +101,7 @@ a, .btn-link {
     width: 8rem;
     height: 8rem;
     margin: 20vh auto 1rem auto;
+    color: grey;
 }
 
     .loading-progress circle {
@@ -112,7 +113,7 @@ a, .btn-link {
     }
 
         .loading-progress circle:last-child {
-            stroke: #1b6ec2;
+            stroke: grey;
             stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
             transition: stroke-dasharray 0.05s ease-in-out;
         }
