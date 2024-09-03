@@ -31,7 +31,8 @@ internal sealed record CirclesMembersGetListQueryHandler : IQueryHandler<Circles
             e => new CircleListGetMemberResult(
                 e.Id,
                 e.Circle.Id,
-                e.Email
+                e.Email,
+                e.Name
             )
         );
 
