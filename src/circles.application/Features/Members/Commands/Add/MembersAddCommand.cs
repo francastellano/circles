@@ -4,7 +4,6 @@ using circles.application.Exceptions;
 using circles.domain.Abstractions;
 using circles.domain.Members;
 using circles.infrastructure.Context;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Members.Commands.Add;
@@ -19,7 +18,7 @@ internal sealed record MembersAddCommandHandler(CirclesDbContext DbContext) : IC
         if (circle is null)
             throw new ItemCantBeFoundException("Circle");
 
-        var circleMember = CircleMember.Create(circle, request.Params.Email);
+        var circleMember = CircleMember.Create(circle, request.Params.Email, request.Params.Name);
 
         await DbContext.AddAsync(circleMember, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);

@@ -1,6 +1,14 @@
+@page "/circles/{CircleId}/members/add"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
 @inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager Navigation
 
 <h2>Add a new member</h2>
+
+<NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
 
 <div>
     <Message @ref="messageComponent" />
@@ -9,9 +17,15 @@
 <EditForm Model="formParams" OnValidSubmit="AddCircle" FormName="add">
 
     <div class="form-floating mb-3">
-        <input id="Email" type="text" placeholder="Email" @bind="formParams.Email" class="form-control"
+        <input id="Email" type="email" placeholder="Email" @bind="formParams.Email" class="form-control"
             autocomplete="off">
-        <label for="Denomination" class="form-label">Denomination</label>
+        <label for="Email" class="form-label">Email</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input id="Name" type="text" placeholder="Name" @bind="formParams.Name" class="form-control"
+            autocomplete="off">
+        <label for="Name" class="form-label">Name</label>
     </div>
 
     <div class="form-floating mb-3">
@@ -43,22 +57,19 @@
 
         if (response.IsSuccessStatusCode)
         {
-            messageComponent.ShowMessage("Member has been created", 3);
+            Navigation.NavigateTo($"circles/{CircleId}/members");
         }
         else
         {
             messageComponent.ShowMessage("An error has happened while creating the Member", 3);
         }
-
-
         _loading = false;
-
     }
 
     public class AddFormParams
     {
         public string CircleId { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
     }
-
 }

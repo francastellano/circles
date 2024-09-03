@@ -1,0 +1,84 @@
+@page "/circles/{CircleId}/members"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+@inject NavigationManager Navigation
+
+@using circles.api.contracts.Members.Queries
+@using circles.Pages.Members
+
+@inject IHttpClientFactory HttpClientFactory
+
+<h2>Circle Members</h2>
+
+<NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
+
+<button class="btn" @onclick="GetItems">Refresh</button>
+<button class="btn" @onclick="Clear">Clear</button>
+<button class="btn" @onclick="NavigateAdd">Add</button>
+
+<LoadingTag Loading="@_loading" />
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Email</td>
+            <td>Name</td>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (members != null)
+        {
+            @foreach (var member in members)
+            {
+                <tr>
+                    <td>
+                        <NavLink class="nav-link" href="@($"members/{member.Id}")">
+                            @member.Email
+                        </NavLink>
+                    </td>
+                    <td>
+                        @member.Name
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+
+    bool _loading;
+    [Parameter, EditorRequired]
+    public string CircleId { get; set; } = string.Empty;
+
+    List<CircleListGetMemberResult>? members;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetItems();
+    }
+
+    public async Task GetItems()
+    {
+        _loading = true;
+        var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
+
+        members = await
+        httpClient.GetFromJsonAsync<List<CircleListGetMemberResult>>($"api/v1/circles/{CircleId}/members");
+        _loading = false;
+    }
+
+    public void Clear()
+    {
+        members = null;
+    }
+    public void NavigateAdd()
+    {
+        Navigation.NavigateTo($"circles/{CircleId}/members/add");
+    }
+
+}
