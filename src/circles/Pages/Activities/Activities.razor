@@ -11,6 +11,8 @@
 
 <h2>Activities</h2>
 
+<NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
+
 <button type="button" class="btn btn-lg btn-primary" @onclick="NavigateToAdd">Add</button>
 
 <EditForm Model="formQuery" OnValidSubmit="GetItems" FormName="query">
