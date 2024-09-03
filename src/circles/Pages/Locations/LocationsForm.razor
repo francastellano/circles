@@ -25,6 +25,18 @@
     </div>
 
     <div class="form-floating mb-3">
+        <input id="Longitude" type="number" step="any" placeholder="Longitude" @bind="formParams.Longitude"
+            class="form-control" autocomplete="off">
+        <label for="Longitude" class="form-label">Longitude</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input id="Latitude" type="number" step="any" placeholder="Latitude" @bind="formParams.Latitude"
+            class="form-control" autocomplete="off">
+        <label for="Latitude" class="form-label">Latitude</label>
+    </div>
+
+    <div class="form-floating mb-3">
         <button type="submit" class="btn btn-lg btn-primary" disabled="@_loading">Add</button>
     </div>
 
@@ -45,6 +57,8 @@
     {
         public string CircleId { get; set; } = string.Empty;
         public string Denomination { get; set; } = string.Empty;
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 
     public async Task AddLocation()
