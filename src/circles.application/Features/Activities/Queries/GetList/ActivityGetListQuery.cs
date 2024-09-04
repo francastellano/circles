@@ -27,6 +27,7 @@ internal sealed record ActivityGetListQueryHandler : IQueryHandler<ActivityGetLi
         try
         {
             var baseQuery = _context.CircleActivities
+                    .Include(e => e.Location)
                     .Where(activity => activity.Circle.Id == request.Params.CircleId)
                     .OrderBy(activity => activity.Denomination)
                     .AsQueryable();
@@ -34,7 +35,8 @@ internal sealed record ActivityGetListQueryHandler : IQueryHandler<ActivityGetLi
             var query = baseQuery.Select(
                 e => new ActivityGetListResults(
                     e.Id,
-                    e.Denomination
+                    e.Denomination,
+                    e.Location.Denomination
                 )
             );
 

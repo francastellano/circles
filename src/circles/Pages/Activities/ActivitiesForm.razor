@@ -3,6 +3,8 @@
 @inject IHttpClientFactory HttpClientFactory
 
 @using Microsoft.AspNetCore.Authorization
+@using global::circles
+@using global::circles.api.contracts.ActivityLocation.Queries
 @attribute [Authorize]
 
 <h2>Add Activity</h2>
@@ -17,6 +19,17 @@
         <input id="Denomination" type="text" placeholder="Denomination" @bind="formParams.Denomination"
             class="form-control" autocomplete="off">
         <label for="Denomination" class="form-label">Denomination</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <select id="Location" @bind="formParams.LocationId" class="form-select" placeholder="Location">
+            <option></option>
+            @foreach (var location in locations)
+            {
+                <option value="@location.Id"> @location.Denomination</option>
+            }
+        </select>
+        <label for="Location" class="form-label">Location</label>
     </div>
 
     <div class="form-floating mb-3">
@@ -36,6 +49,19 @@
     public string CircleId { get; set; } = string.Empty;
 
     private AddFormParams formParams { get; set; } = new();
+
+    private List<CircleLocationGetListResult> locations = new();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        _loading = true;
+        var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
+        locations = await
+        httpClient.GetFromJsonAsync<List<CircleLocationGetListResult>>($"api/v1/circles/{CircleId}/locations?CircleId={CircleId}");
+        _loading = false;
+    }
 
     public async Task Add()
     {
@@ -65,6 +91,7 @@
     {
         public string CircleId { get; set; } = string.Empty;
         public string Denomination { get; set; } = string.Empty;
+        public string LocationId { get; set; } = string.Empty;
     }
 
 

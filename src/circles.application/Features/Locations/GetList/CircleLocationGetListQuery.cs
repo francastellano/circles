@@ -20,7 +20,7 @@ internal sealed record CircleLocationGetListQueryHandler : IQueryHandler<CircleL
     {
         var result = await _circleDbContext.CircleLocations
                 .Where(e => e.Circle.Id == request.CircleId)
-                .Select(e => new CircleLocationGetListResult(e.Denomination, e.Longitude, e.Latitude))
+                .Select(e => new CircleLocationGetListResult(e.Id, e.Denomination, e.Longitude, e.Latitude))
                 .ToListAsync(cancellationToken);
 
         return result;
