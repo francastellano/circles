@@ -18,11 +18,13 @@ public class CircleActivity : BaseEntity
     public Circle Circle { get; set; }
     public CircleLocation Location { get; set; }
     public string Denomination { get; set; } = string.Empty;
+    public ActivityStatus Status { get; set; }
 
     public static CircleActivity Create(Circle circle, CircleLocation location, string denomination)
     {
         var item = new CircleActivity(circle, location, denomination);
         item.Id = Guid.NewGuid();
+        item.Status = ActivityStatus.Draft;
         item.RaiseDomainEvent(new ActivityIsCreatedEvent(item.Id));
         return item;
     }
