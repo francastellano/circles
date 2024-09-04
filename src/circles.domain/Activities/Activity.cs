@@ -18,6 +18,7 @@ public class CircleActivity : BaseEntity
     public Circle Circle { get; set; }
     public CircleLocation Location { get; set; }
     public string Denomination { get; set; } = string.Empty;
+    public ActivityStatus Status { get; set; }
 
     public static CircleActivity Create(Circle circle, CircleLocation location, string denomination)
     {

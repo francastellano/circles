@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="general.query" xml:space="preserve">
+    <value>Query</value>
+  </data>
+
+        <data name="general.add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+
+
+</root>

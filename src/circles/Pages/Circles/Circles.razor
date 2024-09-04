@@ -3,13 +3,22 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 
+
+@using circles.Resources
+
+
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 @using circles.api.contracts.Circles.Queries.GetList
 
 @inject NavigationManager Navigation
 
+@using Microsoft.Extensions.Localization
+
+
 @inject IHttpClientFactory HttpClientFactory
+@inject IStringLocalizer<General> GeneralLocalizer
+
 
 <PageTitle>Circles</PageTitle>
 
@@ -20,7 +29,7 @@
 </div>
 
 
-<button type="button" class="btn btn-lg btn-primary" @onclick="Navigate">Add</button>
+<button type="button" class="btn btn-lg btn-primary" @onclick="Navigate">@GeneralLocalizer["general.add"]</button>
 
 <hr>
 
@@ -34,7 +43,7 @@
     </div>
 
     <div class="form-floating mb-3">
-        <button type="submit" class="w-100 btn btn-lg btn-primary">Consultar</button>
+        <button type="submit" class="w-100 btn btn-lg btn-primary">@GeneralLocalizer["general.query"]</button>
     </div>
 
 </EditForm>
