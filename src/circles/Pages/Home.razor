@@ -3,23 +3,31 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject NavigationManager Navigation
 
+@using Microsoft.Extensions.Localization
+@using System.Globalization
+
+@inject IJSRuntime JSRuntime
+@inject IStringLocalizer<Home> Localizer
 
 <PageTitle>Home</PageTitle>
 
 <h1>Circles4 v.0</h1>
 
-
 <AuthorizeView>
     <NotAuthorized>
-        <a href="authentication/login">Log in</a>
+        <a href="authentication/login">@Localizer["general.login"]</a>
     </NotAuthorized>
 </AuthorizeView>
-
-
 
 @code {
     public void BeginLogOut()
     {
         Navigation.NavigateToLogout("authentication/logout");
+    }
+    private void ChangeLanguage(string culture)
+    {
+        var cultureInfo = new CultureInfo(culture);
+        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
     }
 }
