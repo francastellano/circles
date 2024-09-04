@@ -2,11 +2,28 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using circles;
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
+
+
+builder.Services.AddLocalization();
+
+
+// Configure supported cultures
+var supportedCultures = new[] { "en", "es" };
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture(supportedCultures[0]);
+    options.SupportedCultures = supportedCultures.Select(culture => new CultureInfo(culture)).ToList();
+    options.SupportedUICultures = supportedCultures.Select(culture => new CultureInfo(culture)).ToList();
+});
 
 var uriApiBase = builder.Configuration.GetValue<string>("ApiSettings:BaseUri");
 
