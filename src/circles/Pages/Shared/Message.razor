@@ -1,7 +1,6 @@
 @using System.Timers
 
-<div class="notification"
-    style="display:@(IsVisible ? "block" : "none")">
+<div class="@classNotification" style="display:@(IsVisible ? "block" : "none")">
     @MessageText
 </div>
 
@@ -10,15 +9,20 @@
     public bool IsVisible { get; set; }
     public string MessageText { get; set; } = string.Empty;
 
-
+    string classNotification = "notification";
     public void Loading()
     {
         MessageText = "Loading ...";
         IsVisible = true;
     }
 
-    public void ShowMessage(string message, int durationInSeconds)
+    public void ShowMessage(string message, int durationInSeconds, bool error = false)
     {
+        if (error)
+            classNotification = "notificationError";
+        else
+            classNotification = "notification";
+
         MessageText = message;
         IsVisible = true;
         StateHasChanged();

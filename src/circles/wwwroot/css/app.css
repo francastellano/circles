@@ -34,6 +34,18 @@ h1:focus {
     display: none; /* Initially hidden */
 }
 
+.notificationError {
+    position: fixed;
+    bottom: 1rem; /* Equivalent to bottom-4 in Tailwind */
+    right: 1rem; /* Equivalent to right-4 in Tailwind */
+    padding: 1rem; /* Equivalent to p-4 in Tailwind */
+    background-color: red; /* Equivalent to bg-green-500 in Tailwind */
+    color: white; /* Equivalent to text-white in Tailwind */
+    border-radius: 0.375rem; /* Equivalent to rounded-md in Tailwind */
+    display: none; /* Initially hidden */
+}
+
+
 a, .btn-link {
     color: grey;
 }

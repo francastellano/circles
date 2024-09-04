@@ -15,6 +15,11 @@
 
 <h1>Circles</h1>
 
+<div>
+    <Message @ref="messageComponent" />
+</div>
+
+
 <button type="button" class="btn btn-lg btn-primary" @onclick="Navigate">Add</button>
 
 <hr>
@@ -55,30 +60,36 @@
                 </tr>
             }
         }
-        <LoadingTag Loading="@_loading" /> 
+        <LoadingTag Loading="@_loading" />
 
     </tbody>
 </table>
 
 
 @code {
-
     bool _loading;
-
+    private Message messageComponent = new();
     private CircleQueryForm formParams { get; set; } = new();
     private List<CircleGetListResults>? results;
 
     protected async Task QueryCircles()
     {
         _loading = true;
-        results = null;
-        var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
-        var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"api/v1/circles?denomination={formParams.Denomination}");
-
-        var response = await httpClient.SendAsync(requestMessage);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            results = await response.Content.ReadFromJsonAsync<List<CircleGetListResults>>();
+            results = null;
+            var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"api/v1/circles?denomination={formParams.Denomination}");
+
+            var response = await httpClient.SendAsync(requestMessage);
+            if (response.IsSuccessStatusCode)
+            {
+                results = await response.Content.ReadFromJsonAsync<List<CircleGetListResults>>();
+            }
+        }
+        catch (Exception e)
+        {
+            messageComponent.ShowMessage("An error has happened while quering the circles", 3, true);
         }
         _loading = false;
     }
@@ -95,7 +106,6 @@
 
     private async Task NavigateToCircle(string CircleId)
     {
-
         await localStorage.SetItemAsync("circleId", CircleId);
         Navigation.NavigateTo($"circles/{CircleId}");
     }
