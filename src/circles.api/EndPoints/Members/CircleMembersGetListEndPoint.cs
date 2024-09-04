@@ -1,3 +1,4 @@
+using circles.api.contracts.Abstractions.Paginations;
 using circles.api.contracts.Members.Queries;
 using circles.application.Features.Members.Queries.GetList;
 using FastEndpoints;
@@ -5,7 +6,7 @@ using MediatR;
 
 namespace circles.api.EndPoints.Members;
 
-public class CircleMembersGetListEndPoint(IMediator mediator) : Endpoint<CircleGetListMembersRequest, List<CircleListGetMemberResult>>
+public class CircleMembersGetListEndPoint(IMediator mediator) : Endpoint<CircleGetListMembersRequest, PagingResult<CircleListGetMemberResult>>
 {
     public override void Configure()
     {
@@ -16,7 +17,7 @@ public class CircleMembersGetListEndPoint(IMediator mediator) : Endpoint<CircleG
 
     public override async Task HandleAsync(CircleGetListMembersRequest req, CancellationToken ct)
     {
-        var result = await mediator.Send(new CirclesMembersGetListQuery(req.Id), ct);
+        var result = await mediator.Send(new CirclesMembersGetListQuery(req), ct);
         if (result.IsSuccess)
             await SendAsync(result.Value, cancellation: ct);
         else
