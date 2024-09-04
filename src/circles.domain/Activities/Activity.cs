@@ -24,6 +24,7 @@ public class CircleActivity : BaseEntity
     {
         var item = new CircleActivity(circle, location, denomination);
         item.Id = Guid.NewGuid();
+        item.Status = ActivityStatus.Draft;
         item.RaiseDomainEvent(new ActivityIsCreatedEvent(item.Id));
         return item;
     }
