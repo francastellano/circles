@@ -9,31 +9,40 @@
 
 @using circles.api.contracts.Activities.Queries
 
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<General> GeneralLocalizer
+
+
 <h2>Activities</h2>
+
 
 <NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
 
-<button type="button" class="btn btn-lg btn-primary" @onclick="NavigateToAdd">Add</button>
+<div class="button-group mb-2">
+    <button class="btn" @onclick="GetItems">@GeneralLocalizer["general.refresh"]</button>
+    <button class="btn" @onclick="Clear">@GeneralLocalizer["general.clean"]</button>
+    <button class="btn" @onclick="NavigateToAdd">@GeneralLocalizer["general.add"]</button>
+</div>
 
-<EditForm Model="formQuery" OnValidSubmit="GetItems" FormName="query">
+<container>
+    <EditForm Model="formQuery" OnValidSubmit="GetItems" FormName="query">
 
-    <div class="form-floating mb-3">
-        <input id="Denomination" type="text" placeholder="Denomination" @bind="formQuery.Denomination"
-            class="form-control" autocomplete="off">
+        <div class="form-floating mb-3">
+            <input id="Denomination" type="text" @bind="formQuery.Denomination" class="form-control" autocomplete="off">
+            <label for="Denomination" class="form-label">@GeneralLocalizer["activities.denomination"]</label>
+        </div>
 
-        <label for="Denomination" class="form-label">Denomination</label>
-    </div>
-
-    <div class="form-floating mb-3">
-        <button type="submit" class="w-100 btn btn-lg btn-primary" disabled="@_loading">Consultar</button>
-    </div>
-</EditForm>
-
+        <div class="form-floating mb-3">
+            <button type="submit" class="w-100 btn btn-lg btn-primary"
+                disabled="@_loading">@GeneralLocalizer["general.query"]</button>
+        </div>
+    </EditForm>
+</container>
 
 <table class="table">
     <thead>
         <tr>
-            <th>Denomination</th>
+            <th>@GeneralLocalizer["activities.denomination"]</th>
             <th>Location</th>
             <th>Init</th>
         </tr>
@@ -78,6 +87,11 @@
     public void NavigateToAdd()
     {
         Navigation.NavigateTo($"activities/{CircleId}/add");
+    }
+
+    public void Clear()
+    {
+        results = null;
     }
 
 }

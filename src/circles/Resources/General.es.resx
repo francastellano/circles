@@ -7,6 +7,17 @@
       <data name="general.add" xml:space="preserve">
     <value>Añadir</value>
   </data>
+          <data name="general.clean" xml:space="preserve">
+    <value>Limpiar</value>
+  </data>
+
+
+          <data name="general.refresh" xml:space="preserve">
+    <value>Actualizar</value>
+  </data>
+          <data name="activities.denomination" xml:space="preserve">
+    <value>Denominación</value>
+  </data>
 
 
 </root>
