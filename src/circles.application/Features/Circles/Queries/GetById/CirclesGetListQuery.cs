@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace circles.application.Features.Circles.Queries.GetList;
 
-public sealed record CirclesGetByIdQuery(Guid Id) : IQuery<CircleGetByIdResult>;
+public sealed record CirclesGetByIdQuery(CircleGetByIdRequest Params) : IQuery<CircleGetByIdResult>;
 
 internal sealed record CirclesGetByIdQueryHandler : IQueryHandler<CirclesGetByIdQuery, CircleGetByIdResult>
 {
@@ -24,12 +24,14 @@ internal sealed record CirclesGetByIdQueryHandler : IQueryHandler<CirclesGetById
     public async Task<Result<CircleGetByIdResult>> Handle(CirclesGetByIdQuery request, CancellationToken cancellationToken)
     {
 
-        var circle = await _context.Circles.FirstOrDefaultAsync(e => e.Id == request.Id, cancellationToken);
+        var circle = await _context.Circles.FirstOrDefaultAsync(e => e.Id == request.Params.Id, cancellationToken);
 
         if (circle is null)
             throw new ItemCantBeFoundException("circle");
 
-        var result = new CircleGetByIdResult(circle.Id, circle.Denomination, circle.Creator);
+        var members = await _context.CircleMembers.Where(e => e.Circle.Id == request.Params.Id).Select(e => e.Email).ToListAsync(cancellationToken);
+
+        var result = new CircleGetByIdResult(circle.Id, circle.Denomination, circle.Creator, members);
 
         return result;
     }
