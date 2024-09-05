@@ -8,31 +8,27 @@
 @inject NavigationManager Navigation
 @inject IHttpClientFactory HttpClientFactory
 
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<General> GeneralLocalizer
+
 
 @if (Result != null)
 {
-    <div class="title">
-    <div> @Result.Denomination</div>
-</div>
-
-    <section>
-
-
-
-    </section>
-
-    <div>
-    <div> <strong>Owner</strong></div>
-    <div> @Result.Creator</div>
-</div>
+    <h2 class="title">@Result.Denomination</h2>
 
     <div class="d-flex flex-column">
-        <button class="nav-link" @onclick="@(()=> GoDetails("members"))">Members</button>
-        <button class="nav-link" @onclick="@(()=> GoDetails("activities"))">Activities</button>
-        <button class="nav-link" @onclick="@(()=> GoDetails("skills"))">Skills</button>
-        <button class="nav-link" @onclick="@(()=> GoDetails("goals"))">Goals</button>
-        <button class="nav-link" @onclick="@(()=> GoDetails("locations"))">Locations</button>
+        <button class="nav-link mb-2" @onclick="@(()=> GoDetails("members"))">Members</button>
+        <button class="nav-link mb-2" @onclick="@(()=> GoDetails("activities"))">
+            @GeneralLocalizer["activities.title"]</button>
+        <button class="nav-link mb-2" @onclick="@(()=> GoDetails("admin"))">@GeneralLocalizer["general.admin"]</button>
     </div>
+
+    <div>
+        <div> Administrator:</div>
+        <div> <a href="mailto:@Result.Creator">@Result.Creator</a></div>
+    </div>
+
+
 }
 
 @code {

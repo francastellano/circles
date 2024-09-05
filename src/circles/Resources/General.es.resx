@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-    <data name="general.query" xml:space="preserve">
+  <data name="general.query" xml:space="preserve">
     <value>Consultar</value>
   </data>
 
-      <data name="general.add" xml:space="preserve">
+  <data name="general.add" xml:space="preserve">
     <value>Añadir</value>
   </data>
-          <data name="general.clean" xml:space="preserve">
+  
+  <data name="general.clean" xml:space="preserve">
     <value>Limpiar</value>
   </data>
 
-
-          <data name="general.refresh" xml:space="preserve">
+  <data name="general.refresh" xml:space="preserve">
     <value>Actualizar</value>
   </data>
-          <data name="activities.denomination" xml:space="preserve">
+
+  <data name="general.admin" xml:space="preserve">
+    <value>Administración</value>
+  </data>
+  
+  <data name="activities.denomination" xml:space="preserve">
     <value>Denominación</value>
   </data>
 
-
+  <data name="activities.title" xml:space="preserve">
+    <value>Actividades</value>
+  </data>
 </root>
  

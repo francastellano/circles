@@ -1,0 +1,30 @@
+@page "/circles/{CircleId}/admin"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+@inject NavigationManager Navigation
+@inject IHttpClientFactory HttpClientFactory
+
+
+<div class="title">Administration</div>
+
+<NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
+
+
+<div class="d-flex flex-column">
+    <button class="nav-link mb-2" @onclick="@(()=> GoDetails("skills"))">Skills</button>
+    <button class="nav-link mb-2" @onclick="@(()=> GoDetails("goals"))">Goals</button>
+    <button class="nav-link mb-2" @onclick="@(()=> GoDetails("locations"))">Locations</button>
+
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public string CircleId { get; set; } = string.Empty;
+
+    public void GoDetails(string address)
+    {
+        Navigation.NavigateTo($"circles/{CircleId}/{address}");
+    }
+}
