@@ -21,7 +21,18 @@ h1:focus {
     text-decoration: underline; /* Underline on hover */
 }
 
-
+.title {
+    padding: 1.25rem;
+    border: 1px solid #e5e7eb;
+    background-color: #e5e7eb;
+    text-align: left;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #4b5563;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
 
 .notification {
     position: fixed;

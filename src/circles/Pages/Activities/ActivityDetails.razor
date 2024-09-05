@@ -9,7 +9,7 @@
 @inject IHttpClientFactory HttpClientFactory
 @inject IJSRuntime JSRuntime
 
-<h2>Activity</h2>
+<div class="title">Activity</div>
 
 
 <div>
@@ -21,30 +21,30 @@
 @if (result != null)
 {
     <table class="table">
-        <tr>
-            <td>Name</td>
-            <td>@result.Denomination</td>
-        </tr>
-        <tr>
-            <td>Init Date</td>
-            <td>@result.DateInit</td>
-        </tr>
+    <tr>
+        <td>Name</td>
+        <td>@result.Denomination</td>
+    </tr>
+    <tr>
+        <td>Init Date</td>
+        <td>@result.DateInit</td>
+    </tr>
 
-        <tr>
-            <td>Location</td>
-            <td>@result.LocationDenomination</td>
-        </tr>
-        
-        <tr>
-            <td>Members</td>
-            <td>@result.Members.Count</td>
-        </tr>
-  
-    </table>
+    <tr>
+        <td>Location</td>
+        <td>@result.LocationDenomination</td>
+    </tr>
+
+    <tr>
+        <td>Members</td>
+        <td>@result.Members.Count</td>
+    </tr>
+
+</table>
 
 
     <div>
-    
+
 </div>
 
 
@@ -73,7 +73,8 @@
             result = await
             httpClient.GetFromJsonAsync<ActivityGetByIdResults>($"api/v1/activities/{ActivityId}");
 
-            if (result.LocationLatitude != null){
+            if (result.LocationLatitude != null)
+            {
                 await JSRuntime.InvokeVoidAsync("mapInterop.loadGoogleMaps", "AIzaSyC6AB0gYGTpJJBgpMzXmaLG-Yj_ex_5rXc");
                 await JSRuntime.InvokeVoidAsync("mapInterop.initMap");
                 await JSRuntime.InvokeVoidAsync("mapInterop.updateMap", result.LocationLatitude, result.LocationLongitude);
