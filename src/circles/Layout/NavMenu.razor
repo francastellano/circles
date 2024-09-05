@@ -28,41 +28,45 @@
         </div>
         <hr>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/members"))">
-                Members
-            </NavLink>
-        </div>
+        @if (circleId != null)
+        {
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/activities"))">
-                Activities
-            </NavLink>
-        </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/members"))">
+                    Members
+                </NavLink>
+            </div>
 
-        <hr>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/skills"))">
-                Skills
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/goals"))">
-                Goals
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/locations"))">
-                Locations
-            </NavLink>
-        </div>
-        <hr>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/activities"))">
+                    Activities
+                </NavLink>
+            </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" @onclick="BeginLogOut">
-                Log out
-            </NavLink>
-        </div>
+            <hr>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/skills"))">
+                    Skills
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/goals"))">
+                    Goals
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" @onclick="@(()=> Navigate($"circles/{circleId}/locations"))">
+                    Locations
+                </NavLink>
+            </div>
+            <hr>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" @onclick="BeginLogOut">
+                    Log out
+                </NavLink>
+            </div>
+        }
     </nav>
 </div>
 
