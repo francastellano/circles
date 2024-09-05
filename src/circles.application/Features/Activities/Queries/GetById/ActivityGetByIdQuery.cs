@@ -4,7 +4,7 @@ using circles.application.Exceptions;
 using circles.infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using circles.domain.Abstractions;
-
+using circles.domain.ActivityLocations;
 
 namespace circles.application.Features.Activities.Queries.GetById;
 
@@ -24,12 +24,14 @@ internal sealed record ActivityGetByIdQueryHandler : IQueryHandler<ActivityGetBy
     public async Task<Result<ActivityGetByIdResults>> Handle(ActivityGetByIdQuery request, CancellationToken cancellationToken)
     {
 
-        var activity = await _context.CircleActivities.FirstOrDefaultAsync(e => e.Id == request.Params.ActivityId, cancellationToken);
+        var activity = await _context.CircleActivities
+            .Include(e => e.Location)
+            .FirstOrDefaultAsync(e => e.Id == request.Params.ActivityId, cancellationToken);
 
         if (activity is null)
             throw new ItemCantBeFoundException("activity");
 
-        var result = new ActivityGetByIdResults(activity.Id, activity.Denomination);
+        var result = new ActivityGetByIdResults(activity.Id, activity.Denomination, activity.ActivityInit, activity.Location.Denomination, activity.Location.Latitude, activity.Location.Longitude);
 
         return result;
     }
