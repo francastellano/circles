@@ -22,6 +22,13 @@
     </div>
 
     <div class="form-floating mb-3">
+        <input id="Init" type="date" @bind="formParams.ActivityInit" @bind:format="yyyy-MM-dd" class="form-control"
+            autocomplete="off">
+
+        <label for="Init" class="form-label">Date of Init</label>
+    </div>
+
+    <div class="form-floating mb-3">
         <select id="Location" @bind="formParams.LocationId" class="form-select" placeholder="Location">
             <option></option>
             @foreach (var location in locations)
@@ -71,6 +78,8 @@
 
         formParams.CircleId = CircleId;
 
+
+
         var response = await httpClient.PostAsJsonAsync("/api/v1/activities", formParams);
 
         if (response.IsSuccessStatusCode)
@@ -79,7 +88,7 @@
         }
         else
         {
-            messageComponent.ShowMessage("An error has happened while creating the circle", 3);
+            messageComponent.ShowMessage("An error has happened while creating the activity", 5, true);
         }
 
 
@@ -92,6 +101,7 @@
         public string CircleId { get; set; } = string.Empty;
         public string Denomination { get; set; } = string.Empty;
         public string LocationId { get; set; } = string.Empty;
+        public DateTime ActivityInit { get; set; } = DateTime.Now;
     }
 
 

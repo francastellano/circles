@@ -3,7 +3,6 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 
-
 @using circles.Resources
 
 
@@ -28,22 +27,21 @@
     <Message @ref="messageComponent" />
 </div>
 
-
-<button type="button" class="btn btn-lg btn-primary" @onclick="Navigate">@GeneralLocalizer["general.add"]</button>
+<div class="button-group mb-2">
+    <button class="btn" @onclick="GetItems">@GeneralLocalizer["general.query"]</button>
+    <button class="btn" @onclick="Clear">@GeneralLocalizer["general.clean"]</button>
+    <button class="btn" @onclick="NavigateToAdd">@GeneralLocalizer["general.add"]</button>
+</div>
 
 <hr>
 
-<EditForm Model="formParams" OnValidSubmit="QueryCircles" FormName="query">
+<EditForm Model="formParams" OnValidSubmit="GetItems" FormName="query">
 
     <div class="form-floating mb-3">
         <input id="Denomination" type="text" placeholder="Denomination" @bind="formParams.Denomination"
             class="form-control" autocomplete="off">
 
-        <label for="Denomination" class="form-label">Denomination</label>
-    </div>
-
-    <div class="form-floating mb-3">
-        <button type="submit" class="w-100 btn btn-lg btn-primary">@GeneralLocalizer["general.query"]</button>
+        <label for="Denomination" class="form-label">@GeneralLocalizer["activities.denomination"]</label>
     </div>
 
 </EditForm>
@@ -64,7 +62,7 @@
                         @result.Denomination
                     </td>
                     <td>
-                        <button @onclick="@(()=> NavigateToCircle(@result.Id.ToString()))">Go</button>
+                        <button class="btn" @onclick="@(()=> NavigateToCircle(@result.Id.ToString()))">Go</button>
                     </td>
                 </tr>
             }
@@ -81,7 +79,7 @@
     private CircleQueryForm formParams { get; set; } = new();
     private List<CircleGetListResults>? results;
 
-    protected async Task QueryCircles()
+    protected async Task GetItems()
     {
         _loading = true;
         try
@@ -104,7 +102,7 @@
         _loading = false;
     }
 
-    private void Navigate()
+    private void NavigateToAdd()
     {
         Navigation.NavigateTo("circles/add");
     }
@@ -118,5 +116,10 @@
     {
         await localStorage.SetItemAsync("circleId", CircleId);
         Navigation.NavigateTo($"circles/{CircleId}");
+    }
+
+    public void Clear()
+    {
+        results = null;
     }
 }

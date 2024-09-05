@@ -32,11 +32,15 @@ internal sealed record ActivityGetListQueryHandler : IQueryHandler<ActivityGetLi
                     .OrderBy(activity => activity.Denomination)
                     .AsQueryable();
 
+            if (!string.IsNullOrEmpty(request.Params.Denomination))
+                baseQuery = baseQuery.Where(e => e.Denomination.Contains(request.Params.Denomination));
+
             var query = baseQuery.Select(
                 e => new ActivityGetListResults(
                     e.Id,
                     e.Denomination,
-                    e.Location.Denomination
+                    e.Location.Denomination,
+                    e.ActivityInit
                 )
             );
 
