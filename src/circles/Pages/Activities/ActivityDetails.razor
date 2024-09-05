@@ -5,9 +5,9 @@
 
 @using circles.api.contracts.Activities.Queries
 
-
 @inject NavigationManager Navigation
 @inject IHttpClientFactory HttpClientFactory
+@inject IJSRuntime JSRuntime
 
 <h2>Activity</h2>
 
@@ -22,10 +22,17 @@
 {
     <div>
     @result.Denomination
-
 </div>
+    <div>
+        Activity Init Date
+    </div>
+    <div>
+    @result.DateInit
+</div>
+    <div> Activity Location</div>
+    <div>@result.LocationDenomination</div>
 }
-
+<div id="map" style="height: 400px; width: 100%;"></div>
 @code {
 
     bool _loading;
@@ -36,6 +43,9 @@
     private ActivityGetByIdResults? result;
     protected override async Task OnInitializedAsync()
     {
+        await JSRuntime.InvokeVoidAsync("mapInterop.loadGoogleMaps", "AIzaSyC6AB0gYGTpJJBgpMzXmaLG-Yj_ex_5rXc");
+        await JSRuntime.InvokeVoidAsync("mapInterop.initMap");
+
         await GetDetails();
     }
 
@@ -48,6 +58,9 @@
 
             result = await
             httpClient.GetFromJsonAsync<ActivityGetByIdResults>($"api/v1/activities/{ActivityId}");
+
+            if (result.LocationLatitude != null)
+                await JSRuntime.InvokeVoidAsync("mapInterop.updateMap", result.LocationLatitude, result.LocationLongitude);
         }
         catch (Exception e)
         {
