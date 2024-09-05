@@ -9,10 +9,8 @@
 @using circles.api.contracts.Skills.Queries
 
 <h2>Skills</h2>
- 
-<LoadingTag Loading="@_loading" />
 
-<NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
+<LoadingTag Loading="@_loading" />
 
 <button type="button" class="btn btn-lg btn-primary" @onclick="Navigate">Add Main Skill</button>
 <button type="button" class="btn btn-lg btn-primary" @onclick="ExpandCollapse">
@@ -23,38 +21,40 @@
 {
     <ol>
     @foreach (var skill in skills.Where(e => e.MainSkill == null))
-    {
-        <tr>
-    <td>
-        <li><NavLink class="nav-link" @onclick="@(()=> NavigateChild(skill.Id.ToString()))"> @skill.Denomination</NavLink>
-        </li>
-        </td>
-        <td>@skill.Description</td>
-    <td>
-
-    </td>
-</tr>
-
-        @if (_expand)
         {
-            @foreach (var skillChild in skills.Where(e => e.MainSkill == skill.Id))
-            {
-                <tr>
-    <td></td>
-    <td>@skillChild.Denomination</td>
-</tr>
-            }
+            <tr>
+                <td>
+                    <li>
+                        <NavLink class="nav-link" @onclick="@(()=> NavigateChild(skill.Id.ToString()))"> @skill.Denomination
+                        </NavLink>
+                    </li>
+                </td>
+                <td>@skill.Description</td>
+                <td>
 
+                </td>
+            </tr>
+
+            @if (_expand)
+            {
+                @foreach (var skillChild in skills.Where(e => e.MainSkill == skill.Id))
+                {
+                    <tr>
+                        <td></td>
+                        <td>@skillChild.Denomination</td>
+                    </tr>
+                }
+
+            }
         }
-    }
-</ol>
+    </ol>
 }
 
 
 
 @code {
     bool _loading;
-    bool _expand  = true;
+    bool _expand = true;
     [Parameter, EditorRequired]
     public string CircleId { get; set; } = string.Empty;
     List<CircleSkillGetListResult>? skills;

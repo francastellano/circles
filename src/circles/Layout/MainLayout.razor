@@ -1,4 +1,7 @@
 ﻿@inherits LayoutComponentBase
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager Navigation
+
 <div class="page">
     <AuthorizeView>
         <Authorized>
@@ -7,9 +10,13 @@
             </div>
 
             <main>
-                <div class="top-row px-4">
-                    @context.User.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value
-
+                <div class="top-row">
+                    <div class="ms-3 me-3">
+                        <a href="#" @onclick="NavigateToCircle">Go to Circle</a>
+                    </div>
+                    <div>
+                        @context.User.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value
+                    </div>
                 </div>
                 <article class="content px-4">
                     @Body
@@ -26,3 +33,34 @@
 
     </AuthorizeView>
 </div>
+
+@code {
+    private string? CircleId;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFromLocalStorage();
+    }
+
+    private async Task LoadFromLocalStorage()
+    {
+        CircleId = await localStorage.GetItemAsync<string>("circleId");
+    }
+
+
+    private async Task NavigateToCircle()
+    {
+        var circleId = await localStorage.GetItemAsync<string>("circleId");
+
+        if (!string.IsNullOrEmpty(circleId))
+        {
+            Navigation.NavigateTo($"circles/{circleId}");
+        }
+        else
+        {
+            // Handle cases when circleId is not available
+            Console.WriteLine("Circle ID not found.");
+        }
+    }
+}

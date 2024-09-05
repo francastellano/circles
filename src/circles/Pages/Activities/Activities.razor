@@ -19,9 +19,6 @@
     <Message @ref="messageComponent" />
 </div>
 
-
-<NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
-
 <div class="button-group mb-2">
     <button class="btn" @onclick="GetItems">@GeneralLocalizer["general.refresh"]</button>
     <button class="btn" @onclick="Clear">@GeneralLocalizer["general.clean"]</button>
@@ -57,10 +54,10 @@
             <tr>
                 <td>
                     <NavLink class="nav-link" href="@($"activities/{activity.Id}")">
-                    
-                    @activity.Denomination
+
+                        @activity.Denomination
                     </NavLink>
-                    </td>
+                </td>
                 <td>@activity.LocationDenom</td>
                 <td>@activity.Init</td>
             </tr>
