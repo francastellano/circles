@@ -18,6 +18,8 @@
 @inject IHttpClientFactory HttpClientFactory
 @inject IStringLocalizer<General> GeneralLocalizer
 
+@inject IJSRuntime JS
+
 
 <PageTitle>Circles</PageTitle>
 
@@ -115,11 +117,18 @@
     private async Task NavigateToCircle(string CircleId)
     {
         await localStorage.SetItemAsync("circleId", CircleId);
+        await refreshPage();
         Navigation.NavigateTo($"circles/{CircleId}");
     }
 
     public void Clear()
     {
         results = null;
+    }
+
+    public async Task refreshPage()
+    {
+        await JS.InvokeVoidAsync("refreshPage");
+
     }
 }
