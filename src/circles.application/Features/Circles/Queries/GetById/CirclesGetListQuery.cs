@@ -29,9 +29,7 @@ internal sealed record CirclesGetByIdQueryHandler : IQueryHandler<CirclesGetById
         if (circle is null)
             throw new ItemCantBeFoundException("circle");
 
-        var members = await _context.CircleMembers.Where(e => e.Circle.Id == request.Params.Id).Select(e => e.Email).ToListAsync(cancellationToken);
-
-        var result = new CircleGetByIdResult(circle.Id, circle.Denomination, circle.Creator, members);
+        var result = new CircleGetByIdResult(circle.Id, circle.Denomination, circle.Creator);
 
         return result;
     }

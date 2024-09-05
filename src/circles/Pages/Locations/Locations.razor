@@ -23,30 +23,30 @@
 
 <table class="table">
     <thead>
-    <tr>
-        <td>Denomination</td>
-        <td>Latitude</td>
-        <td>Longitude</td>
-        <td>Action</td>
-    </tr>
+        <tr>
+            <td>Denomination</td>
+            <td class="d-none d-md-table-cell">Latitude</td>
+            <td class="d-none d-md-table-cell">Longitude</td>
+            <td>Action</td>
+        </tr>
     </thead>
 
-@if (locations != null)
+    @if (locations != null)
     {
         <tbody>
-        @foreach (var location in locations)
-        {
+            @foreach (var location in locations)
+            {
                 <tr>
                     <td>@location.Denomination</td>
-                    <td>@location.Latitude</td>
-                    <td>@location.Longitude</td>
+                    <td class="d-none d-md-table-cell">@location.Latitude</td>
+                    <td class="d-none d-md-table-cell">@location.Longitude</td>
                     <td>
                         <button class="btn" @onclick="() => ShowOnMap(location.Latitude, location.Longitude)">
                             Show on Map
                         </button>
                     </td>
                 </tr>
-        }
+            }
         </tbody>
     }
 
@@ -81,7 +81,8 @@
         _loading = true;
         var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
 
-        locations = await httpClient.GetFromJsonAsync<List<CircleLocationGetListResult>>($"api/v1/circles/{CircleId}/locations?circleId={CircleId}");
+        locations = await
+        httpClient.GetFromJsonAsync<List<CircleLocationGetListResult>>($"api/v1/circles/{CircleId}/locations?circleId={CircleId}");
         _loading = false;
     }
 

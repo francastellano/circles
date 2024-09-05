@@ -31,7 +31,9 @@ internal sealed record ActivityGetByIdQueryHandler : IQueryHandler<ActivityGetBy
         if (activity is null)
             throw new ItemCantBeFoundException("activity");
 
-        var result = new ActivityGetByIdResults(activity.Id, activity.Denomination, activity.ActivityInit, activity.Location.Denomination, activity.Location.Latitude, activity.Location.Longitude);
+        var members = await _context.ActivityMembers.Where(e => e.Activity.Id == activity.Id).Select(e => e.Member.Email).ToListAsync(cancellationToken);
+
+        var result = new ActivityGetByIdResults(activity.Id, activity.Denomination, activity.ActivityInit, activity.Location.Denomination, activity.Location.Latitude, activity.Location.Longitude, members);
 
         return result;
     }
