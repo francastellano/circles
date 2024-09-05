@@ -15,6 +15,10 @@
 
 <h2>Activities</h2>
 
+<div>
+    <Message @ref="messageComponent" />
+</div>
+
 
 <NavLink class="nav-link" href="@($"circles/{CircleId}")">Circle</NavLink>
 
@@ -51,7 +55,12 @@
         @foreach (var activity in results)
         {
             <tr>
-                <td>@activity.Denomination</td>
+                <td>
+                    <NavLink class="nav-link" href="@($"activities/{activity.Id}")">
+                    
+                    @activity.Denomination
+                    </NavLink>
+                    </td>
                 <td>@activity.LocationDenom</td>
                 <td>@activity.Init</td>
             </tr>
@@ -64,6 +73,8 @@
     bool _loading;
     [Parameter, EditorRequired]
     public string CircleId { get; set; } = string.Empty;
+
+    private Message messageComponent = new();
 
     private List<ActivityGetListResults> results = new();
 

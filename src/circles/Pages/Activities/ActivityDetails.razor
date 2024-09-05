@@ -1,0 +1,63 @@
+@page "/activities/{ActivityId}"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+@using circles.api.contracts.Activities.Queries
+
+
+@inject NavigationManager Navigation
+@inject IHttpClientFactory HttpClientFactory
+
+<h2>Activity</h2>
+
+
+<div>
+    <Message @ref="messageComponent" />
+</div>
+
+<LoadingTag Loading="@_loading" />
+
+@if (result != null)
+{
+    <div>
+    @result.Denomination
+
+</div>
+}
+
+@code {
+
+    bool _loading;
+    [Parameter, EditorRequired]
+    public string ActivityId { get; set; } = string.Empty;
+    private Message messageComponent = new();
+
+    private ActivityGetByIdResults? result;
+    protected override async Task OnInitializedAsync()
+    {
+        await GetDetails();
+    }
+
+    private async Task GetDetails()
+    {
+        try
+        {
+            _loading = true;
+            var httpClient = HttpClientFactory.CreateClient(CirclesConfiguration.DefaultHttpClient);
+
+            result = await
+            httpClient.GetFromJsonAsync<ActivityGetByIdResults>($"api/v1/activities/{ActivityId}");
+        }
+        catch (Exception e)
+        {
+            messageComponent.ShowMessage("An error has happened while quering the activity", 5, true);
+        }
+        finally
+        {
+            _loading = false;
+        }
+
+    }
+
+}
