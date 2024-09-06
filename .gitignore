@@ -1,5 +1,6 @@
 [Bb]in/
 [Oo]bj/
+[Ll]ogs/
 .idea/
 
 appsettings.Development.json
