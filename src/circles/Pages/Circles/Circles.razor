@@ -117,8 +117,9 @@
     private async Task NavigateToCircle(string CircleId)
     {
         await localStorage.SetItemAsync("circleId", CircleId);
-        await refreshPage();
+        
         Navigation.NavigateTo($"circles/{CircleId}");
+        await refreshPage();
     }
 
     public void Clear()
