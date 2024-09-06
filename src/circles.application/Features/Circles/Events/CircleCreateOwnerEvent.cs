@@ -11,9 +11,9 @@ public class CircleCreateOwnerEvent : INotificationHandler<CircleCreatedEvent>
 {
     private readonly CirclesDbContext _dbContext;
 
-    public CircleCreateOwnerEvent(CirclesDbContext DbContext)
+    public CircleCreateOwnerEvent(CirclesDbContext dbContext)
     {
-        _dbContext = DbContext;
+        _dbContext = dbContext;
     }
 
     public async Task Handle(CircleCreatedEvent notification, CancellationToken cancellationToken)

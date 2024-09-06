@@ -11,12 +11,12 @@ public sealed record CirclesAddCommand(CircleAddRequest Parameter, string Email)
 
 internal sealed record CirclesAddCommandHandler : ICommandHandler<CirclesAddCommand>
 {
-    private readonly CirclesDbContext DbContext;
+    private readonly CirclesDbContext _dbContext;
     private readonly IValidator<CircleAddRequest> _validator;
 
     public CirclesAddCommandHandler(CirclesDbContext dbContext, IValidator<CircleAddRequest> validator)
     {
-        DbContext = dbContext;
+        _dbContext = dbContext;
         _validator = validator;
 
     }
@@ -31,8 +31,8 @@ internal sealed record CirclesAddCommandHandler : ICommandHandler<CirclesAddComm
 
         var data = Circle.Create(request.Parameter.Denomination, request.Email);
 
-        await DbContext.Circles.AddAsync(data, cancellationToken);
-        await DbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.Circles.AddAsync(data, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }

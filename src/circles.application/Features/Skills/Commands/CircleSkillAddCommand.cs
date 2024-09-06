@@ -10,23 +10,27 @@ namespace circles.application.Features.Skills.Commands;
 
 public sealed record CircleSkillAddCommand(CircleSkillAddRequest Params) : ICommand;
 
-
-internal sealed record CircleSkillAddCommandHandler(CirclesDbContext DbContext) : ICommandHandler<CircleSkillAddCommand>
+internal sealed record CircleSkillAddCommandHandler : ICommandHandler<CircleSkillAddCommand>
 {
+    private readonly CirclesDbContext _dbContext;
+    public CircleSkillAddCommandHandler(CirclesDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
     public async Task<Result> Handle(CircleSkillAddCommand request, CancellationToken cancellationToken)
     {
-        var circle = await DbContext.Circles.FirstOrDefaultAsync(e => e.Id == request.Params.CircleId, cancellationToken: cancellationToken);
+        var circle = await _dbContext.Circles.FirstOrDefaultAsync(e => e.Id == request.Params.CircleId, cancellationToken: cancellationToken);
         if (circle is null)
             throw new ItemCantBeFoundException("Circle");
 
         CircleSkill? mainSkill = null;
         if (request.Params.SkillId != null)
-            mainSkill = await DbContext.CircleSkills.FirstOrDefaultAsync(e => e.Id == request.Params.SkillId, cancellationToken);
+            mainSkill = await _dbContext.CircleSkills.FirstOrDefaultAsync(e => e.Id == request.Params.SkillId, cancellationToken);
 
         var item = CircleSkill.Create(circle, request.Params.Denomination, mainSkill, request.Params.Description);
 
-        await DbContext.AddAsync(item, cancellationToken);
-        await DbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.AddAsync(item, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }
