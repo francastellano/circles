@@ -5,8 +5,16 @@ using circles.infrastructure.Context;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(builder.Configuration)
+        .Enrich.FromLogContext()
+        .CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddHealthChecks();
 
@@ -40,6 +48,8 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseSerilogRequestLogging();
 
 app.UseCors("PolicyOne");
 app.MapHealthChecks("/healthz");
